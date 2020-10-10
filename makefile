@@ -42,7 +42,7 @@ current_dir := $(shell basename $(CURDIR))
 
 Executable = $(current_dir)
 
-ExecutableSourceFile = main.cpp
+ExecutableSourceFile = src/main.cpp
 
 # Executable debug object file
 ExecutableDebugObjectFile = $(subst .cpp,.o,$(addprefix .debug/,$(ExecutableSourceFile)))

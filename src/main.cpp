@@ -1,6 +1,11 @@
-##include "Mesh.h"
+#include "Mesh.h"
+#include <iostream>
 
-int int main(int argc, char const *argv[]) {
-  
+
+int main(int argc, char const *argv[])
+{
+
+  std::cout << "Euler2D_B" << std::endl;
+
   return 0;
 }
