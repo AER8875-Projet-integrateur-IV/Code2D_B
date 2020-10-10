@@ -2,8 +2,8 @@ class Mesh {
 private:
   /* data */
 
-/* public:
-  int mEsup, nPoin
+ public:
+  int mEsup, nPoin;
 
   // Linked list construction
   int LinkedList(int nPoin, int nElem, int nNode, int iNpoel[][nElem-1])
@@ -38,6 +38,5 @@ private:
   }
 
 
-*/
 
 };
