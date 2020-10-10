@@ -2,7 +2,7 @@ class Mesh {
 private:
   /* data */
 
-public:
+/* public:
   int mEsup, nPoin
 
   // Linked list construction
@@ -37,7 +37,7 @@ public:
     eSup2[0] = 0;
   }
 
-  
 
+*/
 
 };
