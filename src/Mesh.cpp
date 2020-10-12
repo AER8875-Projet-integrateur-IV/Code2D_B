@@ -1,5 +1,30 @@
 #include "Mesh.h"
 #include "vector"
+#include <fstream>
+#include <iostream>
+
+std::string Mesh::ReadSu2(){
+  std::ifstream file ("../tests/Known_Mesh/square_5x5.su2"); //Stocking su2 file inside a variable
+  std::string name;
+  std::vector<std::string> names;
+  std::string input;
+
+  if (file.is_open()) {
+    // print file:
+    char c = file.get();
+    while (file.good()) {
+      std::cout << c;
+      c = file.get();
+    }
+  }
+  else {
+    // show message:
+    std::cout << "Error opening file";
+  }
+
+
+  return name;
+}
 
 vector<vector<int>> Mesh::LinkedList(int nPoin, int nElem, int nNode, vector<vector<int>> iNpoel)
 {
