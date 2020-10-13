@@ -3,8 +3,11 @@
 #include <fstream>
 #include <iostream>
 
-std::string Mesh::ReadSu2(){
-  std::ifstream file ("../tests/Known_Mesh/square_5x5.su2"); //Stocking su2 file inside a variable
+//Constructor
+Mesh::Mesh(){};
+
+std::string Mesh::ReadSu2(std::string filePath){
+  std::ifstream file (filePath); //Stocking su2 file inside a variable
   std::string name;
   std::vector<std::string> names;
   std::string input;
@@ -13,7 +16,11 @@ std::string Mesh::ReadSu2(){
     // print file:
     char c = file.get();
     while (file.good()) {
-      std::cout << c;
+      /*if (c == "NDIME="){
+        nDimn = std::stoi(file.get());
+        std::cout << nDimn << std::endl;
+
+      }*/
       c = file.get();
     }
   }
