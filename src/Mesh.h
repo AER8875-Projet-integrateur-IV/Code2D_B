@@ -5,10 +5,18 @@ using std::vector;
 class Mesh
 {
 public:
+    //
     vector<vector<int>> iNpoel;
-    int mEsup, nPoin, nNode;
+
+    // Number of nodes per elements
+    vector<int> nNode;
+
+    int mEsup, nPoin;
     //Number of dimensions of mesh
     int nDimn;
+
+    // Nombre d'éléments dans le maillage
+    int nElem;
     // Path and name of file containing the mesh
     std::string filePath;
 
