@@ -95,6 +95,7 @@ std::string Mesh::ReadSu2(std::string filePath){
           {
             iNpoel[i].push_back(std::stoi(word_2));
             ss_2 >> word_2;
+
           }
         }
       }
@@ -213,21 +214,19 @@ std::string Mesh::ReadSu2(std::string filePath){
 
 vector<vector<int>> Mesh::LinkedList(int nPoin, int nElem, vector<int> nNode, vector<vector<int>> iNpoel)
 {
-  vector<int> eSup2;
-  vector<int> eSup1; //Initialisation du linked list
-  eSup2.resize(nPoin+1);
-  eSup1.resize(nPoin+1);
-
-  int iPoil;
+  //Initialisation du linked list
+  eSup2.resize(nPoin);
+  eSup1.resize(nPoin);
 
   for (int iElem = 0; iElem < nElem; iElem++)
   {
     for (int iNode = 0; iNode < nNode[iElem]; iNode++)
     {
-      iPoil = iNpoel[iNode][iElem] + 1;
-      //std::cout << iNpoel[iNode][iElem] << std::endl;
-      eSup2[iPoil] = eSup2[iPoil] + 1;
+      //int iPoil = iNpoel[iNode][iElem] + 1;
+      //eSup2[iPoil] = eSup2[iPoil] + 1;
+      std::cout << iNode << '\n';
     }
+    std::cout << "hello" << '\n';
   }
 
   for (int iPoin = 1; iPoin <= nPoin + 1; iPoin++)
@@ -243,7 +242,6 @@ vector<vector<int>> Mesh::LinkedList(int nPoin, int nElem, vector<int> nNode, ve
       int iStor = eSup2[iPoin] + 1;
       eSup2[iPoin] = iStor;
       eSup1[iStor] = iElem;
-      std::cout << eSup1[iPoin] << std::endl;
     }
   }
 

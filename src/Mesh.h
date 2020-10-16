@@ -35,6 +35,10 @@ public:
     // Vector containg the boundary condition information
     vector<vector<vector<int>>> bCond;
 
+    // Vectors used for the linkef list
+    vector<int> eSup2;
+    vector<int> eSup1;
+
 //Constructor
 public:
     Mesh();
