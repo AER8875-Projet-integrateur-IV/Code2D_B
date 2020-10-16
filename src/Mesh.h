@@ -36,15 +36,16 @@ public:
     vector<vector<vector<int>>> bCond;
 
     // Vectors used for the linkef list
-    vector<int> eSup2;
-    vector<int> eSup1;
+    int* eSup2;
+    int* eSup1;
 
 //Constructor
 public:
     Mesh();
+    ~Mesh();
 
     // la focntion
-    vector<vector<int>> LinkedList(int nPoin, int nElem, vector<int> nNode, vector<vector<int>> iNpoel);
+    void LinkedList();
 
     // Function reading su2 file
     std::string ReadSu2(std::string filePath);

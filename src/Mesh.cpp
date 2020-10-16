@@ -57,7 +57,7 @@ std::string Mesh::ReadSu2(std::string filePath){
         ss >> word;
         // Find the number of elements
         nElem = std::stoi(word);
-
+        iNpoel.reserve(nElem);
         for (int i = 0; i<nElem; i++)
         {
           // Find the number of nodes for one element using the su2 convention for the number of nodes
@@ -68,6 +68,8 @@ std::string Mesh::ReadSu2(std::string filePath){
 
           std::string word_2;
           ss_2 >> word_2;
+
+
 
           if (word_2.compare("3") == 0)
           {
@@ -80,6 +82,7 @@ std::string Mesh::ReadSu2(std::string filePath){
           else if (word_2.compare("9") == 0)
           {
             nNode.push_back(4);
+
           }
           else
           {
@@ -89,7 +92,8 @@ std::string Mesh::ReadSu2(std::string filePath){
 
           // Store each node in the right line and in the right order in the iNpoel vector
           ss_2 >> word_2;
-          iNpoel.resize(nElem);
+
+          iNpoel.push_back({});
 
           for (int j = 0; j<nNode[i]; j++)
           {
@@ -167,6 +171,7 @@ std::string Mesh::ReadSu2(std::string filePath){
               std::string word_4;
 
               ss_4 >> word_4;
+
               // Find the number of nodes per boundary element
               if (word_4.compare("3") == 0)
               {
@@ -178,6 +183,7 @@ std::string Mesh::ReadSu2(std::string filePath){
               }
               else if (word_4.compare("9") == 0)
               {
+
                 nNodeb.push_back(4);
               }
               else
@@ -212,38 +218,55 @@ std::string Mesh::ReadSu2(std::string filePath){
   return name;
 }
 
-vector<vector<int>> Mesh::LinkedList(int nPoin, int nElem, vector<int> nNode, vector<vector<int>> iNpoel)
+void Mesh::LinkedList()
 {
+
   //Initialisation du linked list
-  eSup2.resize(nPoin);
-  eSup1.resize(nPoin);
+  eSup2 = new int[nPoin+1];
+  for(int i=0; i<nPoin +1;i++){
+    eSup2[i] = 0;
+  }
+
+  int size_esup1 = 0;
+  for(size_t i=0; i<nNode.size(); i++){
+    size_esup1 += nNode[i];
+  }
+
+
+  eSup1 = new int[size_esup1];
+
 
   for (int iElem = 0; iElem < nElem; iElem++)
   {
     for (int iNode = 0; iNode < nNode[iElem]; iNode++)
     {
-      //int iPoil = iNpoel[iNode][iElem] + 1;
-      //eSup2[iPoil] = eSup2[iPoil] + 1;
-      std::cout << iNode << '\n';
+
+      int iPoil = iNpoel[iElem][iNode] + 1;
+
+      eSup2[iPoil] = eSup2[iPoil] + 1;
+
     }
-    std::cout << "hello" << '\n';
+
   }
 
-  for (int iPoin = 1; iPoin <= nPoin + 1; iPoin++)
+
+  for (int iPoin = 1; iPoin < nPoin + 1; iPoin++)
   {
     eSup2[iPoin] = eSup2[iPoin] + eSup2[iPoin - 1];
   }
 
   for (int iElem = 0; iElem < nElem; iElem++)
   {
+
     for (int iNode = 0; iNode < nNode[iElem]; iNode++)
     {
-      int iPoin = iNpoel[iNode][iElem];
+      int iPoin = iNpoel[iElem][iNode];
       int iStor = eSup2[iPoin] + 1;
       eSup2[iPoin] = iStor;
       eSup1[iStor] = iElem;
     }
   }
+
 
   for (int iPoin = nPoin; iPoin > 0; iPoin--)
   {
@@ -251,4 +274,9 @@ vector<vector<int>> Mesh::LinkedList(int nPoin, int nElem, vector<int> nNode, ve
   }
 
   eSup2[0] = 0;
+}
+
+Mesh::~Mesh() {
+  delete[] eSup1;
+  delete[] eSup2;
 }
