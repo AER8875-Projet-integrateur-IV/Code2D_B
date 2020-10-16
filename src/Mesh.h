@@ -40,7 +40,7 @@ public:
     Mesh();
 
     // la focntion
-    vector<vector<int>> LinkedList(int nPoin, int nElem, int nNode, vector<vector<int>> iNpoel);
+    vector<vector<int>> LinkedList(int nPoin, int nElem, vector<int> nNode, vector<vector<int>> iNpoel);
 
     // Function reading su2 file
     std::string ReadSu2(std::string filePath);

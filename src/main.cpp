@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
 
   Mesh File = Mesh();
   File.ReadSu2("../tests/Known_Mesh/square_5x5.su2");
-  std::cout << "Euler2D_B" << std::endl;
+  File.LinkedList(File.nPoin, File.nElem, File.nNode, File.iNpoel);
 
   return 0;
 }
