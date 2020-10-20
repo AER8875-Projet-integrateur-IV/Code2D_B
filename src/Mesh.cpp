@@ -232,24 +232,22 @@ void Mesh::LinkedList()
     size_esup1 += nNode[i];
   }
 
-
   eSup1 = new int[size_esup1];
+  for (int i = 0; i<size_esup1; i++){
+    eSup1[i] = 0;
+  }
 
-
+  // First pass to count the number of elements connected to each point
   for (int iElem = 0; iElem < nElem; iElem++)
   {
     for (int iNode = 0; iNode < nNode[iElem]; iNode++)
     {
-
-      int iPoil = iNpoel[iElem][iNode] + 1;
-
+      int iPoil = iNpoel[iElem][iNode]+1;
       eSup2[iPoil] = eSup2[iPoil] + 1;
-
     }
-
   }
 
-
+  // Reshuffling
   for (int iPoin = 1; iPoin < nPoin + 1; iPoin++)
   {
     eSup2[iPoin] = eSup2[iPoin] + eSup2[iPoin - 1];
@@ -257,16 +255,15 @@ void Mesh::LinkedList()
 
   for (int iElem = 0; iElem < nElem; iElem++)
   {
-
     for (int iNode = 0; iNode < nNode[iElem]; iNode++)
     {
       int iPoin = iNpoel[iElem][iNode];
-      int iStor = eSup2[iPoin] + 1;
+      int iStor = eSup2[iPoin]+1;
       eSup2[iPoin] = iStor;
-      eSup1[iStor] = iElem;
+      eSup1[iStor-1] = iElem;
+      //std::cout << eSup1[iStor-1] << '\n';
     }
   }
-
 
   for (int iPoin = nPoin; iPoin > 0; iPoin--)
   {
