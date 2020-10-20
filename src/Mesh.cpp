@@ -278,6 +278,17 @@ void Mesh::LinkedList()
   }
 
   eSup2[0] = 0;
+
+  // Verifying function result
+  /*for (int i = 0; i<size_esup1; i++){
+    std::cout << eSup1[i] << '\n';
+  }
+
+  std::cout << "==========================" << '\n';
+
+  for (int i = 0; i<nPoin+1; i++){
+    std::cout << eSup2[i] << '\n';
+  }*/
 }
 
 // =============================================================================
@@ -287,9 +298,10 @@ void Mesh::NodeSurrNode(){
   // Arrays initialization
   lPoin = new int[nPoin]();
   pSup2 = new int[nPoin+1]();
+  pSup2[0] = 0;
 
   // Initialize variables
-  int iStor = -1;
+  int iStor = 0;
   int iElem;
   int jPoin;
 
@@ -298,8 +310,8 @@ void Mesh::NodeSurrNode(){
         iElem = eSup1[iEsup];
         for (int iNode = 0; iNode<nNode[iElem]; iNode++){
           jPoin = iNpoel[iElem][iNode];
-          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin)){
-            iStor += 1;
+          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
+            iStor +=1;
             pSup1.push_back(jPoin);
             lPoin[jPoin] = iPoin;
           }
@@ -313,7 +325,7 @@ void Mesh::NodeSurrNode(){
     std::cout << pSup1[i] << '\n';
   }
 
-  std::cout << "" << '\n';
+  std::cout << "==========================" << '\n';
 
   for (int i = 0; i<nPoin+1; i++){
     std::cout << pSup2[i] << '\n';
