@@ -35,9 +35,14 @@ public:
     // Vector containg the boundary condition information
     vector<vector<vector<int>>> bCond;
 
-    // Vectors used for the linkef list
+    // Vectors used for the linked list
     int* eSup2;
     int* eSup1;
+
+    // Arrays used for the node surrouning node connectivity
+    int* lPoin;
+    int* pSup2;
+    vector<int> pSup1;
 
 //Constructor
 public:
@@ -49,4 +54,7 @@ public:
 
     // Function reading su2 file
     std::string ReadSu2(std::string filePath);
+
+    // Node surrounding node connectivity
+    void NodeSurrNode();
 };

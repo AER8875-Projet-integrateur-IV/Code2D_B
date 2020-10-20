@@ -4,10 +4,14 @@
 #include <iostream>
 #include <sstream>
 
-//Constructor
+// =============================================================================
+// CONSTRUCTOR
+//==============================================================================
 Mesh::Mesh(){};
 
-// Function to read a su2 file
+// =============================================================================
+// READING SU2 FILE
+//==============================================================================
 std::string Mesh::ReadSu2(std::string filePath){
   std::ifstream file (filePath); //Stocking su2 file inside a variable
   std::string name;
@@ -218,6 +222,9 @@ std::string Mesh::ReadSu2(std::string filePath){
   return name;
 }
 
+// =============================================================================
+// NODE TO ELEMENTS CONNECTIVITY FROM THE ELEMENTS TO NODE CONNECTIVITY
+//==============================================================================
 void Mesh::LinkedList()
 {
 
@@ -273,7 +280,52 @@ void Mesh::LinkedList()
   eSup2[0] = 0;
 }
 
+// =============================================================================
+// NODE SURROUNDING NODE CONNECTIVITY
+//==============================================================================
+void Mesh::NodeSurrNode(){
+  // Arrays initialization
+  lPoin = new int[nPoin]();
+  pSup2 = new int[nPoin+1]();
+
+  // Initialize variables
+  int iStor = -1;
+  int iElem;
+  int jPoin;
+
+  for (int iPoin = 0; iPoin<nPoin; iPoin++){
+      for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
+        iElem = eSup1[iEsup];
+        for (int iNode = 0; iNode<nNode[iElem]; iNode++){
+          jPoin = iNpoel[iElem][iNode];
+          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin)){
+            iStor += 1;
+            pSup1.push_back(jPoin);
+            lPoin[jPoin] = iPoin;
+          }
+        }
+        pSup2[iPoin+1] = iStor;
+      }
+  }
+
+  // Verifying function result
+  /*for (int i = 0; i<pSup1.size(); i++){
+    std::cout << pSup1[i] << '\n';
+  }
+
+  std::cout << "" << '\n';
+
+  for (int i = 0; i<nPoin+1; i++){
+    std::cout << pSup2[i] << '\n';
+  }*/
+}
+
+// =============================================================================
+// DESTRUCTOR
+//==============================================================================
 Mesh::~Mesh() {
   delete[] eSup1;
   delete[] eSup2;
+  delete[] lPoin;
+  delete[] pSup2;
 }
