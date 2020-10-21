@@ -73,8 +73,6 @@ std::string Mesh::ReadSu2(std::string filePath){
           std::string word_2;
           ss_2 >> word_2;
 
-
-
           if (word_2.compare("3") == 0)
           {
             nNode.push_back(2);
@@ -296,6 +294,7 @@ void Mesh::LinkedList()
 //==============================================================================
 void Mesh::NodeSurrNode(){
   // Arrays initialization
+  int* lPoin;
   lPoin = new int[nPoin]();
   pSup2 = new int[nPoin+1]();
   pSup2[0] = 0;
@@ -330,6 +329,47 @@ void Mesh::NodeSurrNode(){
   for (int i = 0; i<nPoin+1; i++){
     std::cout << pSup2[i] << '\n';
   }*/
+  delete[] lPoin;
+}
+
+// =============================================================================
+// ELEMENT SURROUNDING ELEMENT CONNECTIVITY
+//==============================================================================
+void Mesh::ElemSurrElem(){
+
+  // Define function variables
+  int* lPoin;
+  lPoin = new int[nPoin]();
+
+  // Initialize nNofa
+  int nNofa = 2; // Always two node per face in 2D
+
+  // Initialize the nFael vector (contains number of faces for each element)
+  nFael.reserve(nElem);
+  for (int iElem = 0; iElem<nElem; iElem++){
+    nFael.push_back(iNpoel[iElem].size());
+  }
+
+  std::cout << "hello" << '\n';
+  // Initialize esuel vector
+  eSuel.resize(nElem);
+  for (int iElem = 0; iElem<nElem; iElem++){
+    eSuel[iElem].resize(nFael[iElem]);
+    for (int iNfael = 0; iNfael<nFael[iElem]; iNfael++){
+      eSuel[iElem].push_back(0);
+      std::cout << eSuel[iElem][iNfael] << '\n';
+    }
+  }
+
+  /*for (int iElem = 0; iElem<nElem; iElem++){
+    for (int iFael = 0; iFael<nFael; iFael++){
+      nNofa = lNofa[iFael];
+    }
+  }*/
+
+  // Verifying Vectors
+
+  delete[] lPoin;
 }
 
 // =============================================================================
@@ -338,6 +378,6 @@ void Mesh::NodeSurrNode(){
 Mesh::~Mesh() {
   delete[] eSup1;
   delete[] eSup2;
-  delete[] lPoin;
+  //delete[] lPoin;
   delete[] pSup2;
 }

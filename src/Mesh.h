@@ -40,9 +40,13 @@ public:
     int* eSup1;
 
     // Arrays used for the node surrouning node connectivity
-    int* lPoin;
     int* pSup2;
     vector<int> pSup1;
+
+    // Variables used for the elements surrounding elements connectivity
+    vector<vector<int>> eSuel;
+    vector<int> nFael;
+    //vector<vector<vector<int>>> lPofa;
 
 //Constructor
 public:
@@ -57,4 +61,7 @@ public:
 
     // Node surrounding node connectivity
     void NodeSurrNode();
+
+    // Element surrounding element connectivity
+    void ElemSurrElem();
 };
