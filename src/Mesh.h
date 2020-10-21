@@ -46,6 +46,9 @@ public:
     // Variables used for the elements surrounding elements connectivity
     vector<vector<int>> eSuel;
     vector<int> nFael;
+    vector<vector<int>> lNofa;
+    int nNofa;
+    vector<vector<vector<int>>> lPofa;
     //vector<vector<vector<int>>> lPofa;
 
 //Constructor

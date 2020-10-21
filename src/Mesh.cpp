@@ -342,7 +342,9 @@ void Mesh::ElemSurrElem(){
   lPoin = new int[nPoin]();
 
   // Initialize nNofa
-  int nNofa = 2; // Always two node per face in 2D
+  nNofa = 2; // Always two node per face in 2D
+  int* lHelp;
+  lHelp = new int[nNofa];
 
   // Initialize the nFael vector (contains number of faces for each element)
   nFael.reserve(nElem);
@@ -350,24 +352,88 @@ void Mesh::ElemSurrElem(){
     nFael.push_back(iNpoel[iElem].size());
   }
 
-  std::cout << "hello" << '\n';
-  // Initialize esuel vector
-  eSuel.resize(nElem);
+  // Initialize lNofa (contains the number of nodes per faces)
+  lNofa.resize(nElem);
   for (int iElem = 0; iElem<nElem; iElem++){
-    eSuel[iElem].resize(nFael[iElem]);
+    lNofa[iElem].reserve(nFael[iElem]);
     for (int iNfael = 0; iNfael<nFael[iElem]; iNfael++){
-      eSuel[iElem].push_back(0);
-      std::cout << eSuel[iElem][iNfael] << '\n';
+      lNofa[iElem][iNfael] = nNofa;
     }
   }
 
-  /*for (int iElem = 0; iElem<nElem; iElem++){
-    for (int iFael = 0; iFael<nFael; iFael++){
-      nNofa = lNofa[iFael];
+  // Initialize esuel vector
+  eSuel.resize(nElem);
+  for (int iElem = 0; iElem<nElem; iElem++){
+    eSuel[iElem].reserve(nFael[iElem]);
+    for (int iNfael = 0; iNfael<nFael[iElem]; iNfael++){
+      eSuel[iElem][iNfael] = 0;
+    }
+  }
+
+  // Initialize lPofa vector
+
+  vector<vector<int>> lPofa4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+  vector<vector<int>> lPofa3 = {{0, 1}, {1, 2}, {2, 0}};
+
+  /*lPofa.resize(nElem);
+  for (int iElem = 0; iElem<nElem; iElem++){
+    lPofa[iElem].resize(nFael[iElem]);
+    for (int iNfael = 0; iNfael<nFael[iElem]; iNfael++){
+      lPofa[iElem][iNfael].reserve(nNofa);
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lPofa[iElem][iNfael][iNnofa] = 0;
+        std::cout <<  lPofa[iElem][iNfael][iNnofa] << '\n';
+      }
     }
   }*/
 
+
+
+  for (int iElem = 0; iElem<nElem; iElem++){
+    for (int iFael = 0; iFael<nFael[iElem]; iFael++){
+      nNofa = lNofa[iElem][iFael];
+
+      // Reinitialize values of lHelp
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lHelp[iNnofa] = iNpoel[iElem][lPofa4[iFael][iNnofa]];
+      }
+
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lPoin[lHelp[iNnofa]] = 1;
+      }
+      int iPoin = lHelp[0];
+
+      for (int iStor = eSup2[iPoin]; iStor<eSup2[iPoin+1]; iStor++){
+        int jElem = eSup1[iStor];
+        if (jElem != iElem){
+          for (int jFael = 0; jFael<nFael[iElem]; jFael++){
+            int nNofj = lNofa[iElem][jFael];
+            if (nNofj == nNofa){
+              int iCoun = 0;
+              for (int jNofa = 0; jNofa<nNofa; jNofa++){
+                int jPoin = iNpoel[jElem][lPofa4[jFael][jNofa]];
+                iCoun = iCoun + lPoin[jPoin];
+              }
+              if (iCoun == nNofa){
+                eSuel[iElem][iFael] = jElem;
+              }
+            }
+          }
+        }
+      }
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lPoin[lHelp[iNnofa]] = 0;
+      }
+    }
+  }
+
   // Verifying Vectors
+  /*for (int i = 0; i<nElem; i++){
+    for (int j = 0; j < nFael[i]; j++){
+      std::cout << eSuel[i][j] << '\n';
+    }
+    std::cout << "==================" << '\n';
+  }*/
 
   delete[] lPoin;
 }
