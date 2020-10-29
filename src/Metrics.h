@@ -1,4 +1,4 @@
-//#include "Mesh.h"
+#include "Mesh.h"
 
   class Metrics {
 
@@ -6,6 +6,9 @@
       // PUBLIC VARIABLES
       // Area vector
       std::vector<double> area;
+
+      // Centroid vector
+      std::vector<std::vector<double>> centroid;
 
       // Normal array
       //int** normal;

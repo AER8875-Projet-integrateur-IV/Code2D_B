@@ -7,8 +7,11 @@
 //==============================================================================
 Metrics::Metrics(){};
 
-// Function used to define the area of each element
+// Function used to define the area and the centroid of each element
 void Metrics::CalcArea(const Mesh &Connec){
+
+  // Resize centroid vector to match the number of elements
+  centroid.resize(Connec.nElem);
 
   // Initialize normal array
   int num_rows = Connec.nElem;
@@ -37,6 +40,11 @@ void Metrics::CalcArea(const Mesh &Connec){
       area.push_back(std::abs(b/2*((coord1[0]-coord2[0])*(coord1[1]+coord2[1])
                     +(coord2[0]-coord3[0])*(coord2[1]+coord3[1])
                     +(coord3[0]-coord1[0])*(coord3[1]+coord1[1]))));
+
+      centroid[iElem].push_back(1/3*(coord1[0]+coord2[0]+coord3[0]));
+      centroid[iElem].push_back(1/3*(coord1[1]+coord2[1]+coord3[1]));
+      std::cout << centroid[iElem][0] << '\n';
+      std::cout << centroid[iElem][1] << '\n';
     }
     // Verify if the element is a quadrelateral
     else if (Connec.iNpoel[iElem].size() == 4) {
@@ -53,14 +61,33 @@ void Metrics::CalcArea(const Mesh &Connec){
       std::vector<double> coord3 = Connec.coord[node3];
       std::vector<double> coord4 = Connec.coord[node4];
 
-      double calc = coord1[0]-coord1[1];
-      //std::cout << std::to_string(calc) << '\n';
-
       // Store each calculated area in array
       area.push_back(std::abs(b/2*((coord1[0]-coord3[0])*(coord2[1]-coord4[1])
                     +(coord4[0]-coord2[0])*(coord1[1]-coord3[1]))));
 
-      // Store each calculated normal in array
+      // Define the two triangles from the decomposition of the quadrilateral element
+      double area123 = std::abs(b/2*((coord1[0]-coord2[0])*(coord1[1]+coord2[1])
+                    +(coord2[0]-coord3[0])*(coord2[1]+coord3[1])
+                    +(coord3[0]-coord1[0])*(coord3[1]+coord1[1])));
+      double area134 = std::abs(b/2*((coord1[0]-coord3[0])*(coord1[1]+coord3[1])
+                +(coord3[0]-coord4[0])*(coord3[1]+coord4[1])
+                +(coord4[0]-coord1[0])*(coord4[1]+coord1[1])));
+
+      // Define the centroid of each sub-triangle
+      std::vector<double> centroid123{
+        1/3*(coord1[0]+coord2[0]+coord3[0]),
+        1/3*(coord1[1]+coord2[1]+coord3[1])
+      };
+      std::vector<double> centroid134{
+        1/3*(coord1[0]+coord3[0]+coord4[0]),
+        1/3*(coord1[1]+coord3[1]+coord4[1])
+      };
+
+      centroid[iElem].push_back(area123*centroid123[0]+area134*centroid134[0]*area123+area134);
+      centroid[iElem].push_back(area123*centroid123[1]+area134*centroid134[1]*area123+area134);
+
+      //std::cout << std::to_string(centroid123[0]) << '\n';
+      //std::cout << std::to_string(centroid123[1]) << '\n';
     }
     // Print error message if the element type is wrong
     else {
