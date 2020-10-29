@@ -1,5 +1,6 @@
 #include "Metrics.h"
 #include <iostream>
+#include <limits>
 
 // =============================================================================
 // CONSTRUCTOR
@@ -10,7 +11,7 @@ Metrics::Metrics(){};
 void Metrics::CalcArea(const Mesh &Connec){
 
   // Initialize Area array
-  area = new int[Connec.nElem]{};
+  area = new double[Connec.nElem];
 
   // Initialize normal array
   int num_rows = Connec.nElem;
@@ -41,7 +42,7 @@ void Metrics::CalcArea(const Mesh &Connec){
                     +(coord3[0]-coord1[0])*(coord3[1]+coord1[1]));
     }
     // Verify if the element is a quadrelateral
-    else if (Connec.iNpoel.size() == 4) {
+    else if (Connec.iNpoel[iElem].size() == 4) {
 
       // Find what nodes compose this element
       int node1 = Connec.iNpoel[iElem][0];
@@ -55,9 +56,18 @@ void Metrics::CalcArea(const Mesh &Connec){
       std::vector<double> coord3 = Connec.coord[node3];
       std::vector<double> coord4 = Connec.coord[node4];
 
+      double calc = coord1[0]-coord1[1];
+      //std::cout << std::to_string(calc) << '\n';
+
       // Store each calculated area in array
-      area[iElem] = b/2*((coord1[0]-coord3[0])*(coord2[1]-coord4[1])
+      area[iElem] = 1/2*((coord1[0]-coord3[0])*(coord2[1]-coord4[1])
                     +(coord4[0]-coord2[0])*(coord1[1]-coord3[1]));
+
+      std::cout << std::to_string(coord1[0]-coord3[0]) << '\n';
+      std::cout << std::to_string(coord2[1]-coord4[1]) << '\n';
+      std::cout << std::to_string(coord4[0]-coord2[0]) << '\n';
+      std::cout << std::to_string(coord1[1]-coord3[1]) << '\n';
+      //std::cout << std::to_string(area[iElem]) << '\n';
 
       // Store each calculated normal in array
     }

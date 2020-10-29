@@ -1,13 +1,11 @@
-#include "Mesh.h"
-
-
+//#include "Mesh.h"
 
   class Metrics {
 
     public:
       // PUBLIC VARIABLES
       // Area array
-      int* area;
+      double* area;
 
       // Normal array
       int** normal;

@@ -1,5 +1,5 @@
 #include "Mesh.h"
-//#include "Metrics.h"
+#include "Metrics.h"
 #include <iostream>
 
 
@@ -16,6 +16,7 @@ int main(int argc, char const *argv[])
   File.ElemSurrElem();
   //Metrics metrics = Metrics();
   //metrics.CalcArea(File);
+  //std::cout << "hello" << '\n';
 
   return 0;
 }

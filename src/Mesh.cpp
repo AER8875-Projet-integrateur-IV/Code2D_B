@@ -50,8 +50,6 @@ std::string Mesh::ReadSu2(std::string filePath){
       {
         ss >> word;
         nDimn = std::stoi(word);
-        // Resize the vector coord to match the dimension of the mesh
-        coord.resize(nDimn);
 
       }
 
@@ -112,6 +110,9 @@ std::string Mesh::ReadSu2(std::string filePath){
         // Number of points inside the mesh
         nPoin = std::stoi(word);
 
+        // Resize the coord vector to match the number of points inside the mesh
+        coord.resize(nPoin);
+
         // Loop to store each point's coordinates inside the coord vector
         for (int i = 0; i < nPoin; i++)
         {
@@ -122,7 +123,8 @@ std::string Mesh::ReadSu2(std::string filePath){
           {
             std::string word_2;
             ss_2 >> word_2;
-            coord[j].push_back(std::stod(word_2));
+            //std::cout << coord.size() << '\n';
+            coord[i].push_back(std::stod(word_2));
           }
         }
       }
