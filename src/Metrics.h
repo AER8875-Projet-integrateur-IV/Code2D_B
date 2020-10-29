@@ -4,11 +4,11 @@
 
     public:
       // PUBLIC VARIABLES
-      // Area array
-      double* area;
+      // Area vector
+      std::vector<double> area;
 
       // Normal array
-      int** normal;
+      //int** normal;
 
       // PUBLIC FUNCTION
       // Constructor

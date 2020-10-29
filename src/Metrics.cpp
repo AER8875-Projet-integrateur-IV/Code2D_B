@@ -10,16 +10,13 @@ Metrics::Metrics(){};
 // Function used to define the area of each element
 void Metrics::CalcArea(const Mesh &Connec){
 
-  // Initialize Area array
-  area = new double[Connec.nElem];
-
   // Initialize normal array
   int num_rows = Connec.nElem;
   int num_cols = Connec.nDimn;
   //normal = new int[num_rows*num_cols]{};
 
   // Initialize b coefficient (assume its value is 1)
-  int b = 1;
+  double b = 1;
 
   // Loop over the elements of the Mesh object
   for (int iElem = 0; iElem<Connec.nElem; iElem++){
@@ -37,9 +34,9 @@ void Metrics::CalcArea(const Mesh &Connec){
       std::vector<double> coord2 = Connec.coord[node2];
       std::vector<double> coord3 = Connec.coord[node3];
 
-      area[iElem] = b/2*((coord1[0]-coord2[0])*(coord1[1]+coord2[1])
+      area.push_back(std::abs(b/2*((coord1[0]-coord2[0])*(coord1[1]+coord2[1])
                     +(coord2[0]-coord3[0])*(coord2[1]+coord3[1])
-                    +(coord3[0]-coord1[0])*(coord3[1]+coord1[1]));
+                    +(coord3[0]-coord1[0])*(coord3[1]+coord1[1]))));
     }
     // Verify if the element is a quadrelateral
     else if (Connec.iNpoel[iElem].size() == 4) {
@@ -60,14 +57,8 @@ void Metrics::CalcArea(const Mesh &Connec){
       //std::cout << std::to_string(calc) << '\n';
 
       // Store each calculated area in array
-      area[iElem] = 1/2*((coord1[0]-coord3[0])*(coord2[1]-coord4[1])
-                    +(coord4[0]-coord2[0])*(coord1[1]-coord3[1]));
-
-      std::cout << std::to_string(coord1[0]-coord3[0]) << '\n';
-      std::cout << std::to_string(coord2[1]-coord4[1]) << '\n';
-      std::cout << std::to_string(coord4[0]-coord2[0]) << '\n';
-      std::cout << std::to_string(coord1[1]-coord3[1]) << '\n';
-      //std::cout << std::to_string(area[iElem]) << '\n';
+      area.push_back(std::abs(b/2*((coord1[0]-coord3[0])*(coord2[1]-coord4[1])
+                    +(coord4[0]-coord2[0])*(coord1[1]-coord3[1]))));
 
       // Store each calculated normal in array
     }
@@ -81,6 +72,5 @@ void Metrics::CalcArea(const Mesh &Connec){
 // DESTRUCTOR
 //==============================================================================
 Metrics::~Metrics(){
-  delete[] area;
-  delete[] normal;
+  //delete[] normal;
 }

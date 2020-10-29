@@ -14,9 +14,8 @@ int main(int argc, char const *argv[])
   File.LinkedList();
   File.NodeSurrNode();
   File.ElemSurrElem();
-  //Metrics metrics = Metrics();
-  //metrics.CalcArea(File);
-  //std::cout << "hello" << '\n';
-
+  Metrics metrics = Metrics();
+  metrics.CalcArea(File);
+  
   return 0;
 }
