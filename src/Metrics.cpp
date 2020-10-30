@@ -11,7 +11,7 @@ Metrics::Metrics(){};
 void Metrics::CalcArea(const Mesh &Connec){
 
   // Resize centroid vector to match the number of elements
-  centroid.resize(Connec.nElem);
+  centroidVec.resize(Connec.nElem);
 
   // Initialize normal array
   int num_rows = Connec.nElem;
@@ -41,10 +41,13 @@ void Metrics::CalcArea(const Mesh &Connec){
                     +(coord2[0]-coord3[0])*(coord2[1]+coord3[1])
                     +(coord3[0]-coord1[0])*(coord3[1]+coord1[1]))));
 
-      centroid[iElem].push_back(1/3*(coord1[0]+coord2[0]+coord3[0]));
-      centroid[iElem].push_back(1/3*(coord1[1]+coord2[1]+coord3[1]));
-      std::cout << centroid[iElem][0] << '\n';
-      std::cout << centroid[iElem][1] << '\n';
+      centroidVec[iElem].push_back(1/3*(coord1[0]+coord2[0]+coord3[0]));
+      centroidVec[iElem].push_back(1/3*(coord1[1]+coord2[1]+coord3[1]));
+      std::cout << centroidVec[iElem][0] << '\n';
+      std::cout << centroidVec[iElem][1] << '\n';
+
+      // Calculate the normal vector to each face
+
     }
     // Verify if the element is a quadrelateral
     else if (Connec.iNpoel[iElem].size() == 4) {
@@ -75,19 +78,16 @@ void Metrics::CalcArea(const Mesh &Connec){
 
       // Define the centroid of each sub-triangle
       std::vector<double> centroid123{
-        1/3*(coord1[0]+coord2[0]+coord3[0]),
-        1/3*(coord1[1]+coord2[1]+coord3[1])
+        1.0d/3.0d*(coord1[0]+coord2[0]+coord3[0]),
+        1.0d/3.0d*(coord1[1]+coord2[1]+coord3[1])
       };
       std::vector<double> centroid134{
-        1/3*(coord1[0]+coord3[0]+coord4[0]),
-        1/3*(coord1[1]+coord3[1]+coord4[1])
+        1.0d/3.0d*(coord1[0]+coord3[0]+coord4[0]),
+        1.0d/3.0d*(coord1[1]+coord3[1]+coord4[1])
       };
 
-      centroid[iElem].push_back(area123*centroid123[0]+area134*centroid134[0]*area123+area134);
-      centroid[iElem].push_back(area123*centroid123[1]+area134*centroid134[1]*area123+area134);
-
-      //std::cout << std::to_string(centroid123[0]) << '\n';
-      //std::cout << std::to_string(centroid123[1]) << '\n';
+      centroidVec[iElem].push_back(area123*centroid123[0]+area134*centroid134[0]*area123+area134);
+      centroidVec[iElem].push_back(area123*centroid123[1]+area134*centroid134[1]*area123+area134);
     }
     // Print error message if the element type is wrong
     else {
@@ -95,6 +95,37 @@ void Metrics::CalcArea(const Mesh &Connec){
     }
   }
 }
+
+// =============================================================================
+// CALCULATE THE NORMAL VECTOR OF EACH FACE
+//==============================================================================
+void Metrics::CalcNormal(const Mesh &Connec){
+
+  // Resize the normal vector to match the number of elements
+  normalVec.resize(Connec.nElem);
+
+  for (int iElem = 0; iElem<Connec.nElem; iElem++){
+    // Find the number of points inside the element
+    int nbPoint = Connec.iNpoel[iElem].size();
+
+    // Initialize a vector to loop over
+    std::vector<int> vecPoint;
+    normalVec[iElem].resize(nbPoint);
+    for (int i = 0; i<nbPoint; i++){
+      vecPoint.push_back(i);
+    }
+    vecPoint.push_back(0);
+
+
+    for (int i = 0; i<nbPoint; i++){
+      std::vector<double> coord1 = Connec.coord[vecPoint[i]];
+      std::vector<double> coord2 = Connec.coord[vecPoint[i+1]];
+      normalVec[iElem][i].push_back(coord2[1]-coord1[1]);
+      normalVec[iElem][i].push_back(coord1[0]-coord2[0]);
+    }
+  }
+}
+
 // =============================================================================
 // DESTRUCTOR
 //==============================================================================

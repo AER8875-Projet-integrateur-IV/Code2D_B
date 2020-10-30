@@ -16,6 +16,7 @@ int main(int argc, char const *argv[])
   File.ElemSurrElem();
   Metrics metrics = Metrics();
   metrics.CalcArea(File);
-  
+  metrics.CalcNormal(File);
+
   return 0;
 }
