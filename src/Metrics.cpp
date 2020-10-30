@@ -108,20 +108,29 @@ void Metrics::CalcNormal(const Mesh &Connec){
     // Find the number of points inside the element
     int nbPoint = Connec.iNpoel[iElem].size();
 
-    // Initialize a vector to loop over
-    std::vector<int> vecPoint;
-    normalVec[iElem].resize(nbPoint);
-    for (int i = 0; i<nbPoint; i++){
-      vecPoint.push_back(i);
-    }
-    vecPoint.push_back(0);
+    // Resize the next vector in the normal array
+    normalVec[iElem].resize(nbPoint); // True because in 2D number of faces = number of points
 
+    // Store in a vector the nodes associated with an element
+    // Store for a second time the first point at the end of the vector to
+    // calculate the last normal vector
+    std::vector<int> numPt = Connec.iNpoel[iElem];
+    numPt.push_back(Connec.iNpoel[iElem][0]);
 
+    // Loop over the number of points to calculate the normals
     for (int i = 0; i<nbPoint; i++){
-      std::vector<double> coord1 = Connec.coord[vecPoint[i]];
-      std::vector<double> coord2 = Connec.coord[vecPoint[i+1]];
+      std::vector<double> coord1 = Connec.coord[numPt[i]];
+      std::vector<double> coord2 = Connec.coord[numPt[i+1]];
+
       normalVec[iElem][i].push_back(coord2[1]-coord1[1]);
       normalVec[iElem][i].push_back(coord1[0]-coord2[0]);
+
+      // Verify normal coordinates
+      /*for (int j = 0; j<2; j++){
+        std::cout << normalVec[iElem][i][j] << ' ';
+      }
+      std::cout << "\n" << '\n';
+      std::cout << "===========" << '\n';*/
     }
   }
 }
