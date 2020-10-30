@@ -368,7 +368,7 @@ void Mesh::ElemSurrElem(){
   for (int iElem = 0; iElem<nElem; iElem++){
     eSuel[iElem].reserve(nFael[iElem]);
     for (int iNfael = 0; iNfael<nFael[iElem]; iNfael++){
-      eSuel[iElem][iNfael] = 0;
+      eSuel[iElem][iNfael] = -1;
     }
   }
 
@@ -425,6 +425,18 @@ void Mesh::ElemSurrElem(){
       }
       for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
         lPoin[lHelp[iNnofa]] = 0;
+      }
+    }
+  }
+
+  // Loop over the eSuel array to identify ghost cells
+  int count = nElem;
+
+  for (int iElem = 0; iElem<nElem; iElem++){
+    for (int i = 0; i<nFael[iElem]; i++){
+      if (eSuel[iElem][i] == -1){
+        eSuel[iElem][i] = count;
+        count += 1;
       }
     }
   }
