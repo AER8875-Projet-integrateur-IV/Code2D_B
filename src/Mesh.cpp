@@ -453,6 +453,148 @@ void Mesh::ElemSurrElem(){
 }
 
 // =============================================================================
+// ELEMENT SURROUNDING ELEMENT CONNECTIVITY
+//==============================================================================
+
+void Mesh::NodeSurrFaces(){
+  // Variables initialization
+  int* lPoin;
+  lPoin = new int[nPoin]();
+
+  vector<vector<int>> lPofa4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+  vector<vector<int>> lPofa3 = {{0, 1}, {1, 2}, {2, 0}};
+
+  int nFace = 0;
+
+  for (int inMark = 0; inMark<nMark; inMark++){
+    for(int inElemb = 0; inElemb < nElemb[inMark]; inElemb++){
+      lPoin[bCond[inMark][inElemb][0]] = 1;
+    }
+  }
+
+
+  // lPoin verification
+  /*for (int i = 0; i < nPoin;i++){
+    std::cout << lPoin[i] << '\n';
+  }*/
+
+  for (int iElem = 0; iElem<nElem; iElem++){
+    for (int iFael = 0; iFael<nFael[iElem]; iFael++){
+      nNofa = lNofa[iElem][iFael];
+
+      std::vector<int> lHelp = {0};
+      lHelp.push_back(iNpoel[iElem][lPofa4[iFael][0]]);
+      lHelp.push_back(iNpoel[iElem][lPofa4[iFael][1]]);
+      /*for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lHelp.push_back(iNpoel[iElem][lPofa4[iFael][iNnofa]]);
+      }*/
+
+      int iCoun = 0;
+
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        iCoun = iCoun + lPoin[lHelp[iNnofa]];
+      }
+
+      if (iCoun == nNofa){
+        nFace += 1;
+        bFace.resize(nFace);
+        bFace.push_back(lHelp);
+        std::cout << "hello" << '\n';
+      }
+    }
+  }
+
+  // Step1  store faces with all nodes on the boundary
+  /*for (int iElem = 0; iElem<nElem; iElem++){
+    for (int iFael = 0; iFael<nFael[iElem]; iFael++){
+      nNofa = lNofa[iElem][iFael];
+
+      // Reinitialize values of lHelp
+      std::vector<int> lHelp;
+      for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
+        lHelp.push_back(iNpoel[iElem][lPofa4[iFael][iNnofa]]);
+      }​
+
+      int iCoun= 0;
+
+      for (int iNofa = 0; iNofa<nNofa; iNofa++){
+          iCoun = iCoun + lPoin[lHelp][iNnofa];
+      }
+
+        if (iCoun == iNofa) {
+            nFace +=1;
+            bFace[nFace][inNofa] = lHelp[inNofa];
+        }
+    }
+  }
+
+/*
+
+// Step2 remove the doubly defined faces
+
+// Build the list fsup1 fsup2
+
+//Initialisation du linked list
+ fSup2 = new int[nPoin+1];
+ for(int i=0; i<nPoin +1;i++){
+   fSup2[i] = 0;
+ }
+ int size_fsup1 = 0;
+ for(size_t i=0; i<nNode.size(); i++){
+   size_fsup1 += nNode[i];
+ }
+ fSup1 = new int[size_fsup1];
+ for (int i = 0; i<size_fsup1; i++){
+   fSup1[i] = 0;
+ }
+ // First pass to count the number of faces connected to each point
+ for (int iFace = 0; iElem < nFace; iFace++){
+    for (int iNode = 0; iNode < nNode[iFace]; iNode++){
+      int iPoil = iNpoel[iFace][iNode]+1;
+      fSup2[iPoil] = fSup2[iPoil] + 1;
+    }
+  }
+  // Reshuffling
+  for (int iPoin = 1; iPoin < nPoin + 1; iPoin++){
+    fSup2[iPoin] = fSup2[iPoin] + fSup2[iPoin - 1];
+  }
+
+  for (int iFace = 0; iFace < nFace; iFace++){
+    for (int iNode = 0; iNode < nNode[iElem]; iNode++){
+      int iPoin = iNpoel[iFace][iNode];
+      int iStor = fSup2[iPoin]+1;
+      fSup2[iPoin] = iStor;
+      fSup1[iStor-1] = iFace;
+      //std::cout << eSup1[iStor-1] << '\n';
+    }
+  }​
+
+  for (int iPoin = nPoin; iPoin > 0; iPoin--){
+    fSup2[iPoin] = eSup2[iPoin - 1];
+  }
+
+  fSup2[0] = 0;
+  //-------------------------------------------------------------------------------------
+  for (int iboun = 0; iboun<nBoun; iboun++){
+    int ipoin = bconi[iboun];
+    for int istor = fsup2[ipoin] +1; iStor<fSup2[iPoin+1]; iStor++){
+      int iFace = fSup1[iStor];
+      if (lface[iFace] != 0){
+        for (int jstor = istor; jstor < fsup2[ipoin+_1]){
+          int jFace = fsup1[jstor];
+          if (iFace != jFace){
+            if ipoin[iFace]==ipoin[jFace]{
+              int lFace[iFace] = 0
+              int lFace[jFace] = 0
+            }
+          }
+        }
+      }
+    }
+  }*/
+}
+
+// =============================================================================
 // DESTRUCTOR
 //==============================================================================
 Mesh::~Mesh() {

@@ -50,6 +50,7 @@ class Mesh
           vector<vector<int>> lNofa;
           int nNofa;
           vector<vector<vector<int>>> lPofa;
+          vector<vector<int>> bFace;
           //vector<vector<vector<int>>> lPofa;
 
       //Constructor
@@ -68,4 +69,7 @@ class Mesh
 
           // Element surrounding element connectivity
           void ElemSurrElem();
+
+          // Node surrounding faces connectivity
+          void NodeSurrFaces();
         };
