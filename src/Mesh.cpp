@@ -453,10 +453,56 @@ void Mesh::ElemSurrElem(){
 }
 
 // =============================================================================
-// ELEMENT SURROUNDING ELEMENT CONNECTIVITY
+// NODE SURROUNDING ELEMENT CONNECTIVITY
 //==============================================================================
 
 void Mesh::NodeSurrFaces(){
+  // Arrays initialization
+  int* lPoin;
+  lPoin = new int[nPoin]();
+  iNpoel2 = new int[nPoin+1]();
+  iNpoel2[0] = 0;
+
+  // Initialize variables
+  int nEdge = 0;
+  int iElem;
+  int jPoin;
+
+  for (int iPoin = 0; iPoin<nPoin; iPoin++){
+      for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
+        iElem = eSup1[iEsup];
+        for (int iNode = 0; iNode<nNode[iElem]; iNode++){
+          jPoin = iNpoel[iElem][iNode];
+          /*if (nNode[iElem] == 4){
+
+          }*/
+          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
+            nEdge +=1;
+            iNpoed.push_back(jPoin);
+            lPoin[jPoin] = iPoin;
+          }
+        }
+        iNpoel2[iPoin+1] = nEdge;
+      }
+  }
+
+  // Verifying function result
+  /*for (int i = 0; i<iNpoed.size(); i++){
+    std::cout << iNpoed[i] << '\n';
+  }
+
+  std::cout << "==========================" << '\n';
+
+  for (int i = 0; i<nPoin+1; i++){
+    std::cout << iNpoel2[i] << '\n';
+  }*/
+  delete[] lPoin;
+}
+// =============================================================================
+// EXTERNAL FACES CONNECTIVITY
+//==============================================================================
+
+void Mesh::ExternalFaces(){
   // Variables initialization
   int* lPoin;
   lPoin = new int[nPoin]();
@@ -479,6 +525,7 @@ void Mesh::NodeSurrFaces(){
   }*/
 
   for (int iElem = 0; iElem<nElem; iElem++){
+
     for (int iFael = 0; iFael<nFael[iElem]; iFael++){
       nNofa = lNofa[iElem][iFael];
 
@@ -518,23 +565,13 @@ void Mesh::NodeSurrFaces(){
 
 lFace = new int[nFace];
 for (int i = 0; i<nFace; i++){
-  lFace[i] = 0;
+  lFace[i] = 1;
 }
 
 //Initialisation du linked list
 fSup2 = new int[nPoin+1];
 for (int i = 0; i<nPoin+1; i++){
   fSup2[i] = 0;
-}
-
-int size_fsup1 = 0;
-for (size_t i = 0; i<nNode.size(); i++){
-  size_fsup1 += 4;
-}
-
-fSup1 = new int[size_fsup1];
-for (int i = 0; i < size_fsup1; i++){
-  fSup1[i] = 0;
 }
 
 // First pass to count the number of faces connected to each point
@@ -547,11 +584,17 @@ for (int iFace = 0; iFace < nFace; iFace++){
 // Reshuffling
 for (int iPoin = 1; iPoin < nPoin+1; iPoin++){
   fSup2[iPoin] = fSup2[iPoin]+fSup2[iPoin-1];
-  std::cout << fSup2[iPoin] << '\n';
 }
 
+// Initialize fSup1
+int size_fsup1 = fSup2[nPoin];
+fSup1 = new int[size_fsup1];
+for (int i = 0; i < size_fsup1; i++){
+  fSup1[i] = 0;
+}
 
-for (int iFace = 0; iFace < nFace; iFace++){
+//std::cout << size_fsup1 << '\n';
+for (int iFace = 0; iFace < nFace; iFace ++){
   for (int iNode = 0; iNode < nNode[iFace]; iNode++){
     int iPoin = iNpoel[iFace][iNode];
     int iStor = fSup2[iPoin]+1;
@@ -560,22 +603,51 @@ for (int iFace = 0; iFace < nFace; iFace++){
   }
 }
 
-/*for (int i = 0; i < size_fsup1; i++){
-  std::cout << fSup1[i] << '\n';
-}*/
-
-std::cout << "====" << '\n';
-
 for (int iPoin = nPoin; iPoin > 0; iPoin--){
   fSup2[iPoin] = fSup2[iPoin-1];
 }
 fSup2[0] = 0;
 
-std::cout << "hello" << '\n';
 
 /*
+// Verify vectors
+for (int i = 0; i < size_fsup1; i++){
+  std::cout << fSup1[i] << '\n';
+}
+std::cout << "====" << '\n';
+for (int i = 0; i<nPoin+1; i++){
+  std::cout << fSup2[i] << '\n';
+}*/
+
+
+int nBoun = nMark;
+
+for (int i = 0; i < bCond.size(); i++){
+  for (int iboun = 0; iboun<bCond[i].size(); iboun++){
+    int ipoin = bCond[i][iboun][1];
+    for (int istor = fSup2[ipoin]; istor < fSup2[ipoin+1]-1; istor++){
+      int iface = fSup1[istor];
+      if (lFace[iface] != 0){
+        for (int jstor = istor; jstor < fSup2[ipoin+1]; jstor++){
+          int jface = fSup1[jstor];
+          if (iface != jface){
+            lFace[iface] = 0;
+            lFace[jface] = 0;
+          }
+        }
+      }
+    }
+  }
+}
+/*
+// Verify lFace vector
+for (int i = 0; i < nFace; i++){
+  std::cout << lFace[i] << '\n';
+}*/
+
+
   //-------------------------------------------------------------------------------------
-  for (int iboun = 0; iboun<nBoun; iboun++){
+  /*for (int iboun = 0; iboun<nBoun; iboun++){
     int ipoin = bconi[iboun];
     for int istor = fsup2[ipoin] +1; iStor<fSup2[iPoin+1]; iStor++){
       int iFace = fSup1[iStor];
@@ -591,9 +663,9 @@ std::cout << "hello" << '\n';
         }
       }
     }
-  }*/
+  }
+}*/
 }
-
 // =============================================================================
 // DESTRUCTOR
 //==============================================================================
@@ -601,7 +673,8 @@ Mesh::~Mesh() {
   delete[] eSup1;
   delete[] eSup2;
   delete[] pSup2;
-  //delete[] fSup1;
-  //delete[] fSup2;
-  //delete[] lFace;
+  delete[] fSup1;
+  delete[] fSup2;
+  delete[] lFace;
+  delete[] iNpoel2;
 }

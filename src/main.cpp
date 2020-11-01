@@ -14,7 +14,8 @@ int main(int argc, char const *argv[])
   File.LinkedList();
   File.NodeSurrNode();
   File.ElemSurrElem();
-  //File.NodeSurrFaces();
+  File.NodeSurrFaces();
+  File.ExternalFaces();
   Metrics metrics = Metrics();
   metrics.CalcArea(File);
   metrics.CalcNormal(File);
