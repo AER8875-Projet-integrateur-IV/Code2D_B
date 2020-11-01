@@ -39,6 +39,10 @@ class Mesh
           // Vectors used for the linked list
           int* eSup2;
           int* eSup1;
+          int* fSup2;
+          int* fSup1;
+
+          int* lFace;
 
           // Arrays used for the node surrouning node connectivity
           int* pSup2;
