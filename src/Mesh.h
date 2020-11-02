@@ -47,10 +47,14 @@ class Mesh
           // Arrays used for the node surrouning node connectivity
           int* pSup2;
           vector<int> pSup1;
+          int nEdge;
 
           // Arrays used for the node surrounding faces connectivity
-          vector<int> iNpoed;
+          vector<vector<int>> iNpoed;
           int* iNpoel2;
+
+          // Elements used for the face surrounding element connectivity
+          vector<vector<int>> iNedel;
 
           // Variables used for the elements surrounding elements connectivity
           vector<vector<int>> eSuel;
@@ -83,4 +87,7 @@ class Mesh
 
           // External faces connectivity
           void ExternalFaces();
+
+          // Face surrounding element connectivity
+          void FaceSurrElem();
         };

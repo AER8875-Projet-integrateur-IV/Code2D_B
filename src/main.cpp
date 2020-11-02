@@ -16,6 +16,7 @@ int main(int argc, char const *argv[])
   File.ElemSurrElem();
   File.NodeSurrFaces();
   File.ExternalFaces();
+  File.FaceSurrElem();
   Metrics metrics = Metrics();
   metrics.CalcArea(File);
   metrics.CalcNormal(File);

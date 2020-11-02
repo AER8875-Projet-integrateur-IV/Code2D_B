@@ -455,7 +455,7 @@ void Mesh::ElemSurrElem(){
 // =============================================================================
 // NODE SURROUNDING ELEMENT CONNECTIVITY
 //==============================================================================
-
+// Function is working but internal edges are counted . Good or not ?
 void Mesh::NodeSurrFaces(){
   // Arrays initialization
   int* lPoin;
@@ -464,7 +464,7 @@ void Mesh::NodeSurrFaces(){
   iNpoel2[0] = 0;
 
   // Initialize variables
-  int nEdge = 0;
+  nEdge = 0;
   int iElem;
   int jPoin;
 
@@ -473,13 +473,13 @@ void Mesh::NodeSurrFaces(){
         iElem = eSup1[iEsup];
         for (int iNode = 0; iNode<nNode[iElem]; iNode++){
           jPoin = iNpoel[iElem][iNode];
-          /*if (nNode[iElem] == 4){
-
-          }*/
           if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
-            nEdge +=1;
-            iNpoed.push_back(jPoin);
-            lPoin[jPoin] = iPoin;
+            if (iPoin < jPoin){
+              nEdge +=1;
+              vector<int> temp_vec ={iPoin, jPoin};
+              iNpoed.push_back(temp_vec);
+              lPoin[jPoin] = iPoin;
+            }
           }
         }
         iNpoel2[iPoin+1] = nEdge;
@@ -488,14 +488,20 @@ void Mesh::NodeSurrFaces(){
 
   // Verifying function result
   /*for (int i = 0; i<iNpoed.size(); i++){
-    std::cout << iNpoed[i] << '\n';
+    for (int j = 0; j < 2; j++){
+        std::cout << iNpoed[i][j] << '\n';
+    }
+    std::cout << "----" << '\n';
   }
 
   std::cout << "==========================" << '\n';
 
   for (int i = 0; i<nPoin+1; i++){
     std::cout << iNpoel2[i] << '\n';
-  }*/
+  }
+
+  std::cout << "=============" << '\n';
+  std::cout << nEdge << '\n';*/
   delete[] lPoin;
 }
 // =============================================================================
@@ -644,28 +650,80 @@ for (int i = 0; i < bCond.size(); i++){
 for (int i = 0; i < nFace; i++){
   std::cout << lFace[i] << '\n';
 }*/
+}
 
+// =============================================================================
+// EXTERNAL FACES CONNECTIVITY
+//==============================================================================
 
-  //-------------------------------------------------------------------------------------
-  /*for (int iboun = 0; iboun<nBoun; iboun++){
-    int ipoin = bconi[iboun];
-    for int istor = fsup2[ipoin] +1; iStor<fSup2[iPoin+1]; iStor++){
-      int iFace = fSup1[iStor];
-      if (lface[iFace] != 0){
-        for (int jstor = istor; jstor < fsup2[ipoin+_1]){
-          int jFace = fsup1[jstor];
-          if (iFace != jFace){
-            if ipoin[iFace]==ipoin[jFace]{
-              int lFace[iFace] = 0
-              int lFace[jFace] = 0
-            }
-          }
+void Mesh::FaceSurrElem(){
+  // Define internal variables
+  int nEdel = 0;
+  vector<vector<int>> lPoed4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+  vector<vector<int>> lPoed3 = {{0, 1}, {1, 2}, {2, 0}};
+  vector<vector<int>> *lPoed;
+  int iPoi1 = 0;
+  int iPoi2 = 0;
+  int iPmin = 0;
+  int iPmax = 0;
+  iNedel.resize(nElem); // Resize to match the number of elements
+
+  /*for (int i = 0; i<iNpoed.size(); i++){
+    for (int j = 0; j < 2; j++){
+        std::cout << iNpoed[i][j] << '\n';
+    }
+    std::cout << "----" << '\n';
+  }*/
+
+  for (int iElem = 0; iElem < nElem; iElem++){
+    if (nNode[iElem] == 4){
+      nEdel = 4;
+      lPoed = &lPoed4;
+    }
+    else if (nNode[iElem] == 3){
+      nEdel = 3;
+      lPoed = &lPoed3;
+    }
+    else{
+      std::cout << "[ERROR] : Could not recognize the number of edges to build nEdel" << '\n';
+    }
+
+    iNedel[iElem].resize(nEdel);  // Resize to match the number of edges for the element
+    for (int i = 0; i < nEdel; i++){
+      iNedel[iElem][i] = -1;
+    }
+
+    for (int iEdel = 0; iEdel < nEdel; iEdel++){
+      iPoi1 = iNpoel[iElem][(*lPoed)[iEdel][0]];
+      iPoi2 = iNpoel[iElem][(*lPoed)[iEdel][1]];
+      iPmin = std::min(iPoi1, iPoi2);
+      iPmax = std::max(iPoi1, iPoi2);
+      //std::cout << iPoi1 << ' ' << iPoi2 << ' ' << iPmin << ' ' << iPmax << '\n';
+      for (int iEdge = iNpoel2[iPmin]; iEdge < iNpoel2[iPmin+1]; iEdge++){
+        //std::cout << iEdge << '\n';
+        //std::cout << iPmin << ' ' << iNpoed[iEdge][1] << ' ' << iPmax << '\n';
+        if (iNpoed[iEdge][1] == iPmax){
+          iNedel[iElem][iEdel] = iEdge;
         }
       }
     }
   }
-}*/
+
+  // Verify output
+  /*for (int i = 0; i < nElem; i++){
+    if (nNode[i] == 4){
+      nEdel = 4;
+    }
+    else {
+      nEdel = 3;
+    }
+    for (int j = 0; j < nEdel; j++){
+      std::cout << iNedel[i][j] << '\n';
+    }
+    std::cout << "===============" << '\n';
+  }*/
 }
+
 // =============================================================================
 // DESTRUCTOR
 //==============================================================================
