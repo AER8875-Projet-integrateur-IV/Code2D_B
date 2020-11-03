@@ -86,8 +86,9 @@ void Metrics::CalcArea(const Mesh &Connec){
         1.0d/3.0d*(coord1[1]+coord3[1]+coord4[1])
       };
 
-      centroidVec[iElem].push_back(area123*centroid123[0]+area134*centroid134[0]*area123+area134);
-      centroidVec[iElem].push_back(area123*centroid123[1]+area134*centroid134[1]*area123+area134);
+      centroidVec[iElem].push_back((area123*centroid123[0]+area134*centroid134[0])/(area123+area134));
+      centroidVec[iElem].push_back((area123*centroid123[1]+area134*centroid134[1])/(area123+area134));
+      std::cout << centroidVec[iElem][0] << ' ' << centroidVec[iElem][1] << '\n';
     }
     // Print error message if the element type is wrong
     else {
