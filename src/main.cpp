@@ -10,16 +10,16 @@ int main(int argc, char const *argv[])
   //std::string filePath = "../tests/Known_Mesh/square_5x5.su2";
 
   Mesh File = Mesh();
-  File.ReadSu2("../tests/Known_Mesh/square_5x5.su2");
+  File.SolveMesh("../tests/Known_Mesh/square_5x5.su2");
+  /*File.ReadSu2("../tests/Known_Mesh/square_5x5.su2");
   File.LinkedList();
   File.NodeSurrNode();
   File.ElemSurrElem();
   File.NodeSurrFaces();
   File.ExternalFaces();
-  File.FaceSurrElem();
+  File.FaceSurrElem();*/
   Metrics metrics = Metrics();
-  metrics.CalcArea(File);
-  metrics.CalcNormal(File);
+  metrics.SolveMetrics(File);
 
   return 0;
 }

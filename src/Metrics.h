@@ -1,4 +1,4 @@
-#include "Mesh.h"
+//#include "Mesh.h"
 
   class Metrics {
 
@@ -28,6 +28,9 @@
 
       // Function to calculate the normal vector to each face of each element#
       void CalcNormal(const Mesh &Connec);
+
+      // Function to compute metrics calculations
+      void SolveMetrics(const Mesh &Connec);
 
     private:
 

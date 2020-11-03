@@ -90,4 +90,7 @@ class Mesh
 
           // Face surrounding element connectivity
           void FaceSurrElem();
+
+          // Function to call other functions
+          void SolveMesh(std::string filePath);
         };

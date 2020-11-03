@@ -10,6 +10,25 @@
 Mesh::Mesh(){};
 
 // =============================================================================
+// SOLVE
+// Function to call every other functions
+//==============================================================================
+void Mesh::SolveMesh(std::string filePath){
+  std::cout << "----- Starting to read mesh file... -----" << std::endl;
+  Mesh::ReadSu2(filePath);
+  std::cout << "----- Reading mesh file DONE -----" << std::endl;
+  std::cout << "-----" << std::endl;
+  std::cout << "----- Staring mesh connectivity -----" << '\n';
+  Mesh::LinkedList();
+  Mesh::NodeSurrNode();
+  Mesh::ElemSurrElem();
+  Mesh::NodeSurrFaces();
+  Mesh::ExternalFaces();
+  Mesh::FaceSurrElem();
+  std::cout << "----- Mesh connectivity DONE -----" << std::endl;
+}
+
+// =============================================================================
 // READING SU2 FILE
 //==============================================================================
 std::string Mesh::ReadSu2(std::string filePath){

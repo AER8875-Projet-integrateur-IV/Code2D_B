@@ -7,6 +7,17 @@
 //==============================================================================
 Metrics::Metrics(){};
 
+// =============================================================================
+// SOLVE
+// Function to call every other function in the class
+//==============================================================================
+void Metrics::SolveMetrics(const Mesh &Connec){
+  std::cout << "----- Starting Metrics Calculations -----" << std::endl;
+  Metrics::CalcArea(Connec);
+  Metrics::CalcNormal(Connec);
+  std::cout << "----- Metrics calculations DONE -----" << '\n';
+}
+
 // Function used to define the area and the centroid of each element
 void Metrics::CalcArea(const Mesh &Connec){
 
@@ -88,7 +99,7 @@ void Metrics::CalcArea(const Mesh &Connec){
 
       centroidVec[iElem].push_back((area123*centroid123[0]+area134*centroid134[0])/(area123+area134));
       centroidVec[iElem].push_back((area123*centroid123[1]+area134*centroid134[1])/(area123+area134));
-      std::cout << centroidVec[iElem][0] << ' ' << centroidVec[iElem][1] << '\n';
+      //std::cout << centroidVec[iElem][0] << ' ' << centroidVec[iElem][1] << '\n';
     }
     // Print error message if the element type is wrong
     else {
