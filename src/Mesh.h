@@ -1,7 +1,7 @@
-
+#pragma once
 #include <vector>
 #include <string>
-//#include "Metrics.h"
+
 using std::vector;
 class Mesh
       {

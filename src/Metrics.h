@@ -1,4 +1,5 @@
-//#include "Mesh.h"
+#pragma once
+#include "Mesh.h"
 
   class Metrics {
 
