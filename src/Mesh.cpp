@@ -16,16 +16,16 @@ Mesh::Mesh(){};
 void Mesh::SolveMesh(std::string filePath){
   std::cout << "----- Starting to read mesh file... -----" << std::endl;
   Mesh::ReadSu2(filePath);
-  std::cout << "----- Reading mesh file DONE -----" << std::endl;
+  std::cout << "----- Reading mesh file DONE ------------" << std::endl;
   std::cout << "-----" << std::endl;
-  std::cout << "----- Staring mesh connectivity -----" << '\n';
+  std::cout << "----- Staring mesh connectivity ---------" << '\n';
   Mesh::LinkedList();
   Mesh::NodeSurrNode();
   Mesh::ElemSurrElem();
   Mesh::NodeSurrFaces();
   Mesh::ExternalFaces();
   Mesh::FaceSurrElem();
-  std::cout << "----- Mesh connectivity DONE -----" << std::endl;
+  std::cout << "----- Mesh connectivity DONE ------------" << std::endl;
 }
 
 // =============================================================================

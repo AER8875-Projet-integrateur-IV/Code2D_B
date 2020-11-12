@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "Metrics.h"
 #include "Writer.h"
+#include "Input.h"
 #include <iostream>
 
 
@@ -14,6 +15,9 @@ int main(int argc, char const *argv[])
   mesh.SolveMesh("../tests/Known_Mesh/square_5x5.su2");
   Metrics metrics = Metrics();
   metrics.SolveMetrics(mesh);
+
+  Input inputs = Input(mesh);
+  inputs.ComputeInput("Hardcoded");
 
   Writer VtuFile = Writer();
 

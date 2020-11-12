@@ -10,7 +10,7 @@
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme();
+    RoeScheme(int &elem1, int &, int &, int &, Metrics &, Results &);
 
     // Vectors/Arrays
     std::vector<double> Fluxes;

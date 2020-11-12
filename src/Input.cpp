@@ -1,0 +1,22 @@
+#include "Input.h"
+
+// Constructor
+Input::Input(Mesh &mesh){}
+
+// Function to run every other function
+void Input::ComputeInput(std::string trigger){
+  std::cout << "----- Starting initialization of inputs... ----" << '\n';
+  if (trigger == "Hardcoded"){
+    Input::HardCoded();
+  }
+  std::cout << "----- Initialization of inputs completed ------" << '\n';
+}
+
+void Input::HardCoded(){
+  errMax = 0.001;
+  nbIterMax = 1000;
+  gammaGas = 1.4;  // Assuming it's in the air
+  gasConstant = 8.3145; // J/mol*K
+  mach = 1.2;
+  cfl = 0.7;
+}
