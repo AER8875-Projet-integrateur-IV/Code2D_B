@@ -19,4 +19,5 @@ void Input::HardCoded(){
   gasConstant = 8.3145; // J/mol*K
   mach = 1.2;
   cfl = 0.7;
+  rho = 1;
 }

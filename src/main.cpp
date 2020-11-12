@@ -1,7 +1,14 @@
+// =============================================================================
+//                                  MAIN
+//
+// This scripts represents the main code for the 2D solver.
+//
+// =============================================================================
 #include "Mesh.h"
 #include "Metrics.h"
 #include "Writer.h"
 #include "Input.h"
+#include "Results.h"
 #include <iostream>
 
 
@@ -18,6 +25,7 @@ int main(int argc, char const *argv[])
 
   Input inputs = Input(mesh);
   inputs.ComputeInput("Hardcoded");
+  Results Simulation = Results(mesh, inputs);
 
   Writer VtuFile = Writer();
 

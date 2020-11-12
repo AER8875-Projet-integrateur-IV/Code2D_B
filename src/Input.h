@@ -22,6 +22,7 @@ class Input{
     double gasConstant;
     double mach;
     double cfl;
+    double rho;
 
     // Functions
     void ComputeInput(std::string trigger);
