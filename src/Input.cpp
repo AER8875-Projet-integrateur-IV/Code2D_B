@@ -11,7 +11,6 @@ void Input::ComputeInput(std::string trigger){
   }
   //Input::Calculations();
   std::cout << "----- Initialization of inputs completed ------" << '\n';
-  std::cout << nbIterMax << '\n';
 }
 
 void Input::HardCoded(){

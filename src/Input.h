@@ -23,7 +23,6 @@ class Input{
 
     void Calculations();
 
-  private:
     // Variables
     double errMax;
     int nbIterMax;
