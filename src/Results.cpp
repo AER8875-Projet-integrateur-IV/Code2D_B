@@ -8,9 +8,21 @@ Results::Results(Mesh &mesh, Input &inputVals){
   u.resize(mesh.nElem);
   v.resize(mesh.nElem);
   p.resize(mesh.nElem);
-
+  /*pInf = inputVals.p;
+  uInf = inputVals.u;
+  vInf = inputVals.v;
+  rhoInf = inputVals.rho;
+  HInf = inputVals.H;
+  EInf = inputVals.E;*/
+/*
   // Initialize each vector with the input values
   std::fill(rho.begin(), rho.end(), inputVals.rho);
-
-
+  std::fill(H.begin(), H.end(), inputVals.H);
+  std::fill(u.begin(), u.end(), inputVals.u);
+  std::fill(v.begin(), v.end(), inputVals.v);
+  std::fill(p.begin(), p.end(), inputVals.p);
+  /*for (int i = 0; i<mesh.nElem; i++){
+    std::cout << u[i] << '\n';
+    std::cout << i << '\n';
+  }*/
 }

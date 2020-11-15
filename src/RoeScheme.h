@@ -6,11 +6,13 @@
 //
 // =============================================================================
 #pragma once
+#include "Results.h"
+#include "Metrics.h"
 
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme(int &elem1, int &, int &, int &, Metrics &, Results &);
+    RoeScheme(int &, int &, int &, int &, Metrics &, Results &);
 
     // Vectors/Arrays
     std::vector<double> Fluxes;

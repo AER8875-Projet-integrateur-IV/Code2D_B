@@ -8,13 +8,22 @@
 #include <iostream>
 #include <string>
 #include "Mesh.h"
+#include <cmath>
 
 class Input{
   public:
 
     // Constructor
-    Input(Mesh &);
+    Input(Mesh &mesh);
 
+    // Functions
+    void ComputeInput(std::string trigger);
+
+    void HardCoded();
+
+    void Calculations();
+
+  private:
     // Variables
     double errMax;
     int nbIterMax;
@@ -23,10 +32,12 @@ class Input{
     double mach;
     double cfl;
     double rho;
-
-    // Functions
-    void ComputeInput(std::string trigger);
-
-    void HardCoded();
+    double p;
+    double tempInf;
+    double u;
+    double v;
+    double H;
+    double E;
+    double aoa;
 
 };
