@@ -12,12 +12,19 @@
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme(int &, int &, int &, int &, Metrics &, Results &);
+    RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &, Results &);
+    ~RoeScheme();
 
     // Vectors/Arrays
     std::vector<double> Fluxes;
 
     // Variables
+    int elem1;
+    int elem2;
+    int faceI;
+    int currElem;
+    Metrics metrics;
+    Results SimResults;
 
     // Functions
     void RoeAvgs();
@@ -40,4 +47,4 @@ class RoeScheme {
     // Functions
 
 
-}
+};

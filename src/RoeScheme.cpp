@@ -1,7 +1,11 @@
 /*#include "RoeScheme.h"
 
 // Constructor
-RoeScheme::RoeScheme(int &elem1, int &elem2, int &faceI, int &currElem, Metrics &Metrics, Results &SimResults){}
+RoeScheme::RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn){
+  : elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
+}
+
+RoeScheme::~RoeScheme(){}
 
  void RoeScheme::RoeAvgs(){
 
@@ -26,8 +30,8 @@ RoeScheme::RoeScheme(int &elem1, int &elem2, int &faceI, int &currElem, Metrics 
    HTilde = (HL*std::sqrt(rhoL)+HR*std::sqrt(rhoR))/(std::sqrt(rhoL)+std::sqrt(rhoR));
 
    // Calculate V
-   double nx = Metrics[currElem][faceI][0];
-   double ny = Metrics[currElem][faceI][1];
+   double nx = metrics[currElem][faceI][0];
+   double ny = metrics[currElem][faceI][1];
    VTilde = uTilde*nx+vTilde*ny;
 
    // Calculate q sqaured
@@ -44,15 +48,15 @@ RoeScheme::RoeScheme(int &elem1, int &elem2, int &faceI, int &currElem, Metrics 
    std::vector<double> SideFlux;
    SideFlux.resize(4);
    SideFlux[0] = SimResults.rho[iElem]*SimResults.V[iElem];
-   SideFlux[1] = SimResults.rho[iElem]*SimResults.u[iElem]*SimResults.V[iElem]+Metrics[iElem][faceI].x*SimResults.p[iElem];
-   SideFlux[2] = SimResults.rho[iElem]*SimResults.v[iElem]*SimResults.V[iElem]+Metrics[iElem][faceI].y*SimResults.p[iElem];
+   SideFlux[1] = SimResults.rho[iElem]*SimResults.u[iElem]*SimResults.V[iElem]+metrics[iElem][faceI].x*SimResults.p[iElem];
+   SideFlux[2] = SimResults.rho[iElem]*SimResults.v[iElem]*SimResults.V[iElem]+metrics[iElem][faceI].y*SimResults.p[iElem];
    SideFlux[3] = SimResults.rho[iElem]*SimResults.H[iElem]*SimResults.V[iElem];
    return SideFlux;
  }
 
  std::vector<double> RoeScheme::CalcARoe(){
-   double nx = Metrics[currElem][faceI][0];
-   double ny = Metrics[currElem][faceI][1];
+   double nx = metrics[currElem][faceI][0];
+   double ny = metrics[currElem][faceI][1];
 
    std::vector<double> ARoe;
    ARoe.resize(4);
@@ -99,7 +103,8 @@ RoeScheme::RoeScheme(int &elem1, int &elem2, int &faceI, int &currElem, Metrics 
    for (int i = 0; i<Fluxes.length(); i++){
      Fluxes[i] = 0.5*(FluxR[i]+FluxL[i]-ARoe[i]);
    }
- }*/
+ }
 
 
  // HARTEN'S CONDITION STILL MISSING
+*/
