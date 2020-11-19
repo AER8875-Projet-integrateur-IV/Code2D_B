@@ -23,8 +23,8 @@ class Writer {
 	private:
     string _path;
     Mesh *_meshdata;
-    Solution *_solution;
-    file *_outputfile;
+    Results *_solution;
+    Writer *_outputfile;
     bool isfilevalid();
 
     public:
