@@ -1,9 +1,21 @@
 #include "Writer.h"
 
+using std::ofstream;
 // =============================================================================
 // CONSTRUCTOR
 // =============================================================================
-Writer::Writer(){};
+Writer::Writer(string &path, Mesh *meshdata, Results *solution)
+{
+	_path = path;
+	_meshdata = Mesh;
+	_Solution = Results;
+	_outputFile = NULL;
+};
+
+////////////
+// File Reading Verication (OPTIONAL)
+//////////
+
 
 // =============================================================================
 // Writing function
@@ -13,6 +25,14 @@ void Writer::WriteSol(){
   file.open("Solution.dat");  // Open file
 
   Header(file); // Writing header
+
+    filestream(_path);
+	beginFile(filestream);
+	writeNewzone(filestream);
+	writeCoord(filestream);
+	writeVar(filestream);
+	///FaceConnectivity(filestream) 
+	writeElementConnectivity(filestream);
 
   file.close(); // Close file
 }
