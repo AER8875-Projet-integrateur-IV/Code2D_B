@@ -7,24 +7,42 @@
 // =============================================================================
 
 #pragma once
-#include "Mesh.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
 
+#include "../Mesh.h"
+#include "../Results.h"
+//#include "../../tools/stringTools.h"/
+
+using namespace std;
+
 class Writer {
 
-  public:
+	private:
+    string _path;
+    Mesdata *_meshdata;
+    Solution *_solution;
+    file *_outputfile;
+    bool isfilevalid();
 
-    // Write class constructor
-    Writer();
+    public:
+  	// Write class constructor
+    //Writer();
 
-    // Function to write solution
-    void WriteSol();
+    Tecwriter(string &path, meshdata *Mesh, solution *Results);
+    ~Tecwriter();
 
-    // WWriting header
-    void Header(std::ofstream&);
 
-  private:
+  // Function to write solution
+     void WriteSol();
+
+  // WWriting header
+  // void Header(std::ofstream&);
+    void writeNewZone(std::ofstream &);
+    void writeCoord(std::ofstream &);
+    void writeVar(std::ofstream &);
+    void writeElementConnectivity(ofstream &filestream);
 
 };
