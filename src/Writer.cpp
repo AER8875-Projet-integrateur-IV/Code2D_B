@@ -31,7 +31,7 @@ void Writer::WriteSol(){
 	writeNewzone(filestream);
 	writeCoord(filestream);
 	writeVar(filestream);
-	///FaceConnectivity(filestream) 
+	///FaceConnectivity(filestream)
 	writeElementConnectivity(filestream);
 
   file.close(); // Close file

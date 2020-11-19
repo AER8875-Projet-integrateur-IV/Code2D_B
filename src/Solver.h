@@ -9,14 +9,19 @@
 #include "Mesh.h"
 #include "Input.h"
 #include "Results.h"
+#include "Metrics.h"
 #include <iostream>
 
 class Solver{
 public:
-    Solver(Mesh &, Input &);
+    Solver(Mesh &, Input &, Metrics &);
     void ComputeSolver();
     void UpdateBC();
+    void ComputeDeltaT();
+
+    std::vector<double> dt;
 
     Mesh &mesh_sol;
     Input &input_sol;
+    Metrics &metrics_sol;
 };
