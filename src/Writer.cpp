@@ -7,7 +7,7 @@ using std::ofstream;
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
 	_path = path;
-	_meshdata = Mesh ;
+	_meshdata = Mesh *meshdata;
 	_solution = Results ;
 	_outputfile = NULL ;
 };
