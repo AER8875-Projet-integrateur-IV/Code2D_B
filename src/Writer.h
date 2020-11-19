@@ -12,17 +12,17 @@
 #include <iostream>
 #include <fstream>
 
-#include "../Mesh.h"
-#include "../Results.h"
+#include "Mesh.h"
+#include "Results.h"
 //#include "../../tools/stringTools.h"/
 
 using namespace std;
-
+//cout << "here" << endl
 class Writer {
 
 	private:
     string _path;
-    Mesdata *_meshdata;
+    Meshdata *_meshdata;
     Solution *_solution;
     file *_outputfile;
     bool isfilevalid();
