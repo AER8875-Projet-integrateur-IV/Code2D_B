@@ -129,6 +129,8 @@ std::string Mesh::ReadSu2(std::string filePath){
         // Number of points inside the mesh
         nPoin = std::stoi(word);
 
+        // Allo
+
         // Resize the coord vector to match the number of points inside the mesh
         coord.resize(nPoin);
 
