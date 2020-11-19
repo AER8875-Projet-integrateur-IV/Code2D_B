@@ -9,8 +9,14 @@
 #include "Mesh.h"
 #include "Input.h"
 #include "Results.h"
+#include <iostream>
 
 class Solver{
-  private:
+public:
     Solver(Mesh &, Input &);
+    void ComputeSolver();
+    void UpdateBC();
+
+    Mesh &mesh_sol;
+    Input &input_sol;
 };

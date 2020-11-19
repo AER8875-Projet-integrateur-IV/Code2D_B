@@ -9,6 +9,7 @@
 #include "Writer.h"
 #include "Input.h"
 #include "Results.h"
+#include "Solver.h"
 #include <iostream>
 
 
@@ -25,9 +26,10 @@ int main(int argc, char const *argv[])
 
   Input inputs = Input(mesh);
   inputs.ComputeInput("Hardcoded");
-  //RoeScheme Schema = RoeScheme(metrics, Simulation);
+  Solver solution = Solver(mesh, inputs);
+  solution.ComputeSolver();
 
-  Writer VtuFile = Writer();
+  //Writer VtuFile = Writer();
 
   return 0;
 }

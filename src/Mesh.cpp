@@ -17,7 +17,7 @@ void Mesh::SolveMesh(std::string filePath){
   std::cout << "----- Starting to read mesh file... -----" << std::endl;
   Mesh::ReadSu2(filePath);
   std::cout << "----- Reading mesh file DONE ------------" << std::endl;
-  std::cout << "-----" << std::endl;
+  std::cout << '\n' << std::endl;
   std::cout << "----- Staring mesh connectivity ---------" << '\n';
   Mesh::LinkedList();
   Mesh::NodeSurrNode();
@@ -179,7 +179,7 @@ std::string Mesh::ReadSu2(std::string filePath){
             }
             else{
               bounTag = -20;
-              std::cout << "Boundary condition type may be wrong" << '\n';
+              std::cout << "Boundary condition type may be wrong at marker " << i+1 << '\n';
             }
 
             std::getline(file, line);
