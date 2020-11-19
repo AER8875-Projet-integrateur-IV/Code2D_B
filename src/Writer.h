@@ -13,7 +13,8 @@
 #include <fstream>
 
 #include "Mesh.h"
-#include "Results.h"
+#include "Results.h" 
+#include "Solver.h"
 //#include "../../tools/stringTools.h"/
 
 using namespace std;

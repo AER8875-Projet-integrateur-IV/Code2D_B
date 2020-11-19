@@ -1,4 +1,12 @@
 #include "Writer.h"
+#include "Mesh.h"
+#include "Results.h"
+
+
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
 
 using std::ofstream;
 // =============================================================================
@@ -20,7 +28,8 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 // Writing function
 // =============================================================================
-void Writer::WriteSol(){
+void Writer::WriteSol()
+{
   std::ofstream file;
   file.open("Solution.dat");  // Open file
 
