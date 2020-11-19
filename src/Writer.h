@@ -22,7 +22,7 @@ class Writer {
 
 	private:
     string _path;
-    Meshdata *_meshdata;
+    Mesh *_meshdata;
     Solution *_solution;
     file *_outputfile;
     bool isfilevalid();
