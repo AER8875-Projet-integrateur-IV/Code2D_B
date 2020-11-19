@@ -1,8 +1,8 @@
 /*#include "RoeScheme.h"
 
 // Constructor
-RoeScheme::RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn){
-  : elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
+RoeScheme::RoeScheme(int elem1, int elem2, int faceI, int currElem, Metrics &metrics, Results &SimResults){
+  //: elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
 }
 
 RoeScheme::~RoeScheme(){}
@@ -103,8 +103,7 @@ RoeScheme::~RoeScheme(){}
    for (int i = 0; i<Fluxes.length(); i++){
      Fluxes[i] = 0.5*(FluxR[i]+FluxL[i]-ARoe[i]);
    }
- }
+ }*/
 
 
  // HARTEN'S CONDITION STILL MISSING
-*/

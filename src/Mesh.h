@@ -63,6 +63,7 @@ class Mesh
           int nNofa;
           vector<vector<vector<int>>> lPofa;
           vector<vector<int>> bFace;
+          vector<vector<int>> bounType;
           //vector<vector<vector<int>>> lPofa;
 
       //Constructor

@@ -42,6 +42,9 @@ class RoeScheme {
     double qTildeSq;
     double cTilde;
 
+    Metrics &metricsIn;
+    Results &SimResultsIn;
+
     // Vectors/Arrays
 
     // Functions

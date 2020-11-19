@@ -154,6 +154,7 @@ std::string Mesh::ReadSu2(std::string filePath){
         ss >> word;
         nMark = std::stoi(word);
         bCond.resize(nMark);
+        bounType.resize(nMark);
 
         // Create a loop to extract all the info on the boundary conditions
         for (int i = 0; i<nMark; i++)
@@ -167,6 +168,20 @@ std::string Mesh::ReadSu2(std::string filePath){
           // Make sure that the next line is the marker_tag
           if (word_2.compare("MARKER_TAG=") == 0)
           {
+            // Create a vector of strings containing the type of boundary condition
+            ss_2 >> word_2;
+            int bounTag;
+            if (word_2.compare("farfield") == 0){
+              bounTag = -10;
+            }
+            else if (word_2.compare("wall") == 0){
+              bounTag = -11;
+            }
+            else{
+              bounTag = -20;
+              std::cout << "Boundary condition type may be wrong" << '\n';
+            }
+
             std::getline(file, line);
             std::stringstream ss_3(line);
             std::string word_3;
@@ -194,6 +209,8 @@ std::string Mesh::ReadSu2(std::string filePath){
               std::string word_4;
 
               ss_4 >> word_4;
+              //std::cout << bounTag << '\n';
+              bounType[i].push_back(bounTag);
 
               // Find the number of nodes per boundary element
               if (word_4.compare("3") == 0)

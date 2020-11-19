@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 
   Input inputs = Input(mesh);
   inputs.ComputeInput("Hardcoded");
-  Results Simulation = Results(mesh, inputs);
+  //RoeScheme Schema = RoeScheme(metrics, Simulation);
 
   Writer VtuFile = Writer();
 

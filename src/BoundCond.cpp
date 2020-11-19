@@ -1,4 +1,4 @@
-/*#include "BoundCond.h"
+#include "BoundCond.h"
 
 // Wall condition
 std::vector<double> WallCond(int elem1, int face1, Mesh &mesh, Results &SimResults, Metrics &metrics){
@@ -57,4 +57,4 @@ std::vector<double> SubOutflow(Results &SimResults, int elem1, int face1, double
 
   std::vector<double> bound = {p, rho, u, v};
   return bound;
-}*/
+}
