@@ -31,8 +31,8 @@ class Writer {
   	// Write class constructor
     //Writer();
 
-    Tecwriter(string &path, meshdata *Mesh, solution *Results);
-    ~Tecwriter();
+    Writer(string &path, Mesh *meshdata, Results *solution);
+    ~Writer();
 
 
   // Function to write solution
