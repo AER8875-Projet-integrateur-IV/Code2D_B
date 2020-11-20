@@ -19,6 +19,7 @@
 
 using namespace std;
 //cout << "here" << endl
+
 class Writer 
 {
 
@@ -35,14 +36,13 @@ class Writer
     ~Writer();
 
   // Function to write solution
-    void WriteSol(std::string outpath);
-    void WriteSol(std::string outpath, std::vector<std::string> options);
+    void WriteSol();
 
   // WWriting header
-    void WriteHeader(std::vector<std::string> options);
-    void writeNewZone(std::vector<std::string> options);
-    void writeCoord();
-    void writeVar(std::vector<std::string> options);
-    void writeElementConnectivity();
+    void WriteHeader(std::ofstream &);
+    void writeNewZone(std::ofstream &);
+    void writeCoord(std::ofstream &);
+    void writeVar(std::ofstream &);
+    void writeElementConnectivity(ofstream &filestream);
 
 };
