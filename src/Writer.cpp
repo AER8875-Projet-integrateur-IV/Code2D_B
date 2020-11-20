@@ -62,3 +62,55 @@ void Writer::writeNewZone(std::ofstream &filestream)
 	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n "
 	           << "DATAPACKING = BLOCK, VARLOCATION = ([3-7] = CELLCENTERED) \n " ;
 }
+
+///POINTS COORDINATES
+void Writer::writeCoord(ofstream &filestream)
+{
+
+	uint32_t returnline = 0;
+	for (returnline = 0; returnline < unsigned(_meshdata-> nPoin; returnline = returnline + 1)
+	{
+	  filestream << _meshdata-> nNode ->at(2 * returnline) << "\n";
+	}
+	for returnline = 0; returnline < unsigned(_meshdata->nPoin()); returnline = returnline + 1)
+    {
+    	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    } 
+}
+
+
+///Variables Writing
+void Tecwriter::writeVar(ofstream &filestream)
+{
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoU[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoV[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoE[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)	
+	{
+		filestream << _solution->p[iElem] << "\n";
+	}
+}
+
+///Connectivity Writing
+void Tecwriter::writeElementConnectivity(ofstream &filestream)
+{
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		for (int jNode = _meshdata->getElement2NodesStart()->at(iElem); jNode < _meshdata->getElement2NodesStart()->at(iElem + 1); jNode++)
+		{
+			filestream << _meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
+		}
+	}
