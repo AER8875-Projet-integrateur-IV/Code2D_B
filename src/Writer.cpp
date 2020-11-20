@@ -105,7 +105,7 @@ void Writer::writeVar(ofstream &filestream)
 }
 
 ///Connectivity Writing
-void Tecwriter::writeElementConnectivity(ofstream &filestream)
+void Writer::writeElementConnectivity(ofstream &filestream)
 {
 	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)
 	{
