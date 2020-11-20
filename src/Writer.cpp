@@ -1,6 +1,7 @@
 #include "Writer.h"
 #include "Mesh.h"
 #include "Results.h"
+#include "Solver.h"
 
 
 #include <fstream>
@@ -14,7 +15,7 @@ using std::ofstream;
 // =============================================================================
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
-	_path = path;
+	//_path = path;
 	m_meshdata = meshdata;
 	m_solution = Results*;
 	_outputfile = NULL ;
