@@ -34,7 +34,7 @@ void Writer::writeSol()
   ofstream filestream(_path);
   //Sol.open("Solution.dat");  // Open file
 
-  WriteHeader(filestream); // Writing header
+  writeHeader(filestream); // Writing header
 
     filestream(_path);
 	beginFile(filestream);
