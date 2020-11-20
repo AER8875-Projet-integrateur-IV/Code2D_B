@@ -56,9 +56,9 @@ void Writer::writeNewZone(std::ofstream &filestream)
 {
 	filestream << "ZONE "
 	           << "ZONETYPE = FEQUADRILATERAL " 
-	           << "NODES = " << _meshdata->nPoin() << ", "
-	           << "ELEMENTS = " << _meshdata->nElem() << ", "
-	           << "FACES = " << _meshdata->getnface() << ", "
-	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n " ;
+	           << "NODES = " << m_meshdata->nPoin() << ", "
+	           << "ELEMENTS = " << m_meshdata->nElem() << ", "
+	           << "FACES = " << m_meshdata->getnface() << ", "
+	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n "
 	           << "DATAPACKING = BLOCK, VARLOCATION = ([3-7] = CELLCENTERED) \n " ;
 }
