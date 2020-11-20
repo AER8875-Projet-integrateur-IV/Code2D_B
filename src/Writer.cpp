@@ -46,7 +46,7 @@ void Writer::writeSol()
 // =============================================================================
 // HEADER
 // =============================================================================
-void Writer::writeHeader(std::ofstream &file)
+void Writer::writeHeader(std::ofstream &filestream)
 {
   //file << "hello \n";
 filestream << "TITLE = \"Example\"\n VARIABLES = \"X\",\"Y\",\"Density\",\"Speed U\",\"Speed V\", \"Pressure\", \"Energy\"" << endl;
