@@ -31,20 +31,16 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 void Writer::writeSol()
 {
-  ofstream filestream(_path);
   //Sol.open("Solution.dat");  // Open file
-
-  writeHeader(filestream); // Writing header
-
-    filestream(_path);
-	beginFile(filestream);
+    ofstream filestream(_path);
+    writeHeader(filestream); // Writing header
 	writeNewzone(filestream);
 	writeCoord(filestream);
 	writeVar(filestream);
 	///FaceConnectivity(filestream) 
 	writeElementConnectivity(filestream);
 
-  file.close(); // Close file
+  filestream.close(); // Close file
 }
 
 // =============================================================================
