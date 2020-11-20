@@ -28,7 +28,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 // Writing function
 // =============================================================================
-void Writer::~writeSol()
+void Writer::writeSol()
 {
   //ofstream filestream(_path);
   file.open("Solution.dat");  // Open file
