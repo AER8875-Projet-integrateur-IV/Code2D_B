@@ -51,3 +51,14 @@ void Writer::writeHeader(std::ofstream &filestream)
   //file << "hello \n";
 filestream << "TITLE = \"Example\"\n VARIABLES = \"X\",\"Y\",\"Density\",\"Speed U\",\"Speed V\", \"Pressure\", \"Energy\"" << endl;
 }
+
+void Writer::writeNewZone(std::ofstream &filestream)
+{
+	filestream << "ZONE "
+	           << "ZONETYPE = FEQUADRILATERAL " 
+	           << "NODES = " << _meshdata->nPoin() << ", "
+	           << "ELEMENTS = " << _meshdata->nElem() << ", "
+	           << "FACES = " << _meshdata->getnface() << ", "
+	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n " ;
+	           << "DATAPACKING = BLOCK, VARLOCATION = ([3-7] = CELLCENTERED) \n " ;
+}
