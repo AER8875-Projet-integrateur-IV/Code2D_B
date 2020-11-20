@@ -58,7 +58,7 @@ void Writer::writeNewZone(std::ofstream &filestream)
 	           << "ZONETYPE = FEQUADRILATERAL " 
 	           << "NODES = " << m_meshdata-> nPoin << ", "
 	           << "ELEMENTS = " << m_meshdata-> nElem << ", "
-	           << "FACES = " << m_meshdata-> getnface << ", "
+	           //<< "FACES = " << m_meshdata-> getnface << ", "
 	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n "
 	           << "DATAPACKING = BLOCK, VARLOCATION = ([3-7] = CELLCENTERED) \n " ;
 }
@@ -84,23 +84,23 @@ void Writer::writeVar(ofstream &filestream)
 {
 	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << m_solution->rho[iElem] << "\n";
+		filestream << m_solution-> rho[iElem] << "\n";
 	}
 	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << m_solution->rhoU[iElem] / m_solution-> rho[iElem] << "\n";
+		filestream << m_solution-> u[iElem] / m_solution-> rho[iElem] << "\n";
 	}
 	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << m_solution->rhoV[iElem] / m_solution-> rho[iElem] << "\n";
+		filestream << m_solution-> v[iElem] / m_solution-> rho[iElem] << "\n";
 	}
 	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)
 	{
-		filestream << m_solution->rhoE[iElem] / m_solution-> rho[iElem] << "\n";
+		filestream << m_solution-> H[iElem] / m_solution-> rho[iElem] << "\n";
 	}
 	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)	
 	{
-		filestream << m_solution->p[iElem] << "\n";
+		filestream << m_solution-> p[iElem] << "\n";
 	}
 }
 
