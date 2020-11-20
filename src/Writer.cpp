@@ -15,8 +15,8 @@ using std::ofstream;
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
 	_path = path;
-	_meshdata = Mesh;
-	_solution = Results*;
+	m_meshdata = meshdata;
+	m_solution = Results*;
 	_outputfile = NULL ;
 };
 
