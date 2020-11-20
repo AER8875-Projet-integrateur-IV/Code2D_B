@@ -68,11 +68,11 @@ void Writer::writeCoord(ofstream &filestream)
 {
 
 	uint32_t returnline = 0;
-	for (returnline = 0; returnline < unsigned(_meshdata-> nPoin; returnline = returnline + 1)
+	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin; returnline = returnline + 1)
 	{
 	  filestream << _meshdata-> nNode ->at(2 * returnline) << "\n";
 	}
-	for returnline = 0; returnline < unsigned(_meshdata->nPoin()); returnline = returnline + 1)
+	for returnline = 0; returnline < unsigned(m_meshdata-> nPoin; returnline = returnline + 1)
     {
     	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
     } 
