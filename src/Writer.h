@@ -1,4 +1,4 @@
-// =============================================================================
+/*// =============================================================================
 //                                  WRITER
 //
 // The purpose of this class is to write the solution to the desired format.
@@ -46,4 +46,4 @@ class Writer
     void writeVar(std::ofstream &);
     void writeElementConnectivity(ofstream &filestream);
 
-};
+};*/

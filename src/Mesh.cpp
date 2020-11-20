@@ -412,8 +412,8 @@ void Mesh::ElemSurrElem(){
 
   // Initialize lPofa vector
 
-  vector<vector<int>> lPofa4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
-  vector<vector<int>> lPofa3 = {{0, 1}, {1, 2}, {2, 0}};
+  //vector<vector<int>> lPofa4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+  //vector<vector<int>> lPofa3 = {{0, 1}, {1, 2}, {2, 0}};
 
   /*lPofa.resize(nElem);
   for (int iElem = 0; iElem<nElem; iElem++){
@@ -430,12 +430,23 @@ void Mesh::ElemSurrElem(){
 
 
   for (int iElem = 0; iElem<nElem; iElem++){
+    vector<vector<int>> lPofa;
+
+    // Determine if element is a square or a triangle
+    if (nFael[iElem] == 3){
+      lPofa = {{0, 1}, {1, 2}, {2, 0}};
+    }
+    else if (nFael[iElem] == 4){
+      lPofa = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
+    }
+    else{
+      std::cout << "In function ElemSurrElem, element is not a quadrilateral or a triangle" << '\n';
+    }
     for (int iFael = 0; iFael<nFael[iElem]; iFael++){
       nNofa = lNofa[iElem][iFael];
-
       // Reinitialize values of lHelp
       for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
-        lHelp[iNnofa] = iNpoel[iElem][lPofa4[iFael][iNnofa]];
+        lHelp[iNnofa] = iNpoel[iElem][lPofa[iFael][iNnofa]];
       }
 
       for (int iNnofa = 0; iNnofa<nNofa; iNnofa++){
@@ -451,7 +462,7 @@ void Mesh::ElemSurrElem(){
             if (nNofj == nNofa){
               int iCoun = 0;
               for (int jNofa = 0; jNofa<nNofa; jNofa++){
-                int jPoin = iNpoel[jElem][lPofa4[jFael][jNofa]];
+                int jPoin = iNpoel[jElem][lPofa[jFael][jNofa]];
                 iCoun = iCoun + lPoin[jPoin];
               }
               if (iCoun == nNofa){
@@ -509,6 +520,9 @@ void Mesh::NodeSurrFaces(){
   for (int iPoin = 0; iPoin<nPoin; iPoin++){
       for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
         iElem = eSup1[iEsup];
+        if (nFael[iElem] == 4){
+          std::cout << "Physical edges will be appearing" << '\n';
+        }
         for (int iNode = 0; iNode<nNode[iElem]; iNode++){
           jPoin = iNpoel[iElem][iNode];
           if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
@@ -683,9 +697,9 @@ for (int i = 0; i < bCond.size(); i++){
     }
   }
 }
-/*
+
 // Verify lFace vector
-for (int i = 0; i < nFace; i++){
+/*for (int i = 0; i < nFace; i++){
   std::cout << lFace[i] << '\n';
 }*/
 }
