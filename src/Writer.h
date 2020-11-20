@@ -19,22 +19,21 @@
 
 using namespace std;
 //cout << "here" << endl
-class Writer {
+class Writer 
+{
 
 	private:
-    string _path;
-    Mesh *_meshdata;
-    Results *_solution;
-    Writer *_outputfile;
-    bool isfilevalid();
+	string_path;
+    Mesh *m_meshdata;
+    Results *m_solution;
+    Writer *m_outfile;
 
     public:
   	// Write class constructor
-    //Writer();
-
+    Writer();
     Writer(string &path, Mesh *meshdata, Results *solution);
+    
     ~Writer();
-
 
   // Function to write solution
      void WriteSol();
