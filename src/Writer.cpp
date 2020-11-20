@@ -18,6 +18,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 	string _path;
 	m_meshdata = meshdata;
 	m_solution = solution;
+	_outputFile = NULL;
 };
 
 ////////////
@@ -30,8 +31,8 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 void Writer::writeSol()
 {
-  //ofstream filestream(_path);
-  Sol.open("Solution.dat");  // Open file
+  ofstream filestream(_path);
+  //Sol.open("Solution.dat");  // Open file
 
   WriteHeader(filestream); // Writing header
 
