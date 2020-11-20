@@ -74,43 +74,43 @@ void Writer::writeCoord(ofstream &filestream)
 	}
 	for returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
     {
-    	filestream << m_meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    	filestream << m_meshdata-> nNode ->at(2 * returnline + 1) << "\n";
     } 
 }
 
 
 ///Variables Writing
-void Tecwriter::writeVar(ofstream &filestream)
+void Writer::writeVar(ofstream &filestream)
 {
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << _solution->rho[iElem] << "\n";
+		filestream << m_solution->rho[iElem] << "\n";
 	}
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << _solution->rhoU[iElem] / _solution-> rho[iElem] << "\n";
+		filestream << m_solution->rhoU[iElem] / _solution-> rho[iElem] << "\n";
 	}
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	for (int iElem = 0; iElem < m_meshdata-> nElem; iElem++)
 	{
-		filestream << _solution->rhoV[iElem] / _solution-> rho[iElem] << "\n";
+		filestream << m_solution->rhoV[iElem] / _solution-> rho[iElem] << "\n";
 	}
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)
 	{
-		filestream << _solution->rhoE[iElem] / _solution-> rho[iElem] << "\n";
+		filestream << m_solution->rhoE[iElem] / _solution-> rho[iElem] << "\n";
 	}
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)	
+	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)	
 	{
-		filestream << _solution->p[iElem] << "\n";
+		filestream << m_solution->p[iElem] << "\n";
 	}
 }
 
 ///Connectivity Writing
 void Tecwriter::writeElementConnectivity(ofstream &filestream)
 {
-	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	for (int iElem = 0; iElem < _meshdata-> nElem ; iElem++)
 	{
-		for (int jNode = _meshdata->getElement2NodesStart()->at(iElem); jNode < _meshdata->getElement2NodesStart()->at(iElem + 1); jNode++)
+		for (int jNode = m_meshdata->getElement2NodesStart()->at(iElem); jNode < _meshdata->getElement2NodesStart()->at(iElem + 1); jNode++)
 		{
-			filestream << _meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
+			filestream << m_meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
 		}
 	}
