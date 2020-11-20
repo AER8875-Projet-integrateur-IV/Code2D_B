@@ -32,12 +32,11 @@ class Writer
   	// Write class constructor
     Writer();
     Writer(string &path, Mesh *meshdata, Results *solution);
-    
     ~Writer();
 
   // Function to write solution
-     void WriteSol(std::string outpath);
-     void WriteSol(std::string outpath, std::vector<std::string> options);
+    void WriteSol(std::string outpath);
+    void WriteSol(std::string outpath, std::vector<std::string> options);
 
   // WWriting header
     void WriteHeader(std::vector<std::string> options);
