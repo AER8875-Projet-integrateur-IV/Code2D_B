@@ -1,15 +1,22 @@
 #include "Writer.h"
+#include "Mesh.h"
+#include "Results.h"
+#include "Solver.h"
 
-using std::ofstream;
+
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
+
+using namespace std;
 // =============================================================================
 // CONSTRUCTOR
 // =============================================================================
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
-	_path = path;
-	_meshdata = Mesh;
-	_solution = Results;
-	_outputfile = NULL ;
+	m_meshdata = meshdata;
+	m_solution = solution;
 };
 
 ////////////
@@ -20,11 +27,12 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 // Writing function
 // =============================================================================
-void Writer::WriteSol(){
-  std::ofstream file;
+void Writer::~writeSol()
+{
+  //ofstream filestream(_path);
   file.open("Solution.dat");  // Open file
 
-  Header(file); // Writing header
+  WriteHeader(filestream); // Writing header
 
     filestream(_path);
 	beginFile(filestream);

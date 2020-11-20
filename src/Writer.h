@@ -13,33 +13,33 @@
 #include <fstream>
 
 #include "Mesh.h"
-#include "Results.h"
-//#include "../../tools/stringTools.h"/
+#include "Results.h" 
+#include "Solver.h"
+
 
 using namespace std;
 //cout << "here" << endl
-class Writer {
+
+class Writer 
+{
 
 	private:
-    string _path;
-    Mesh *_meshdata;
-    Results *_solution;
-    Writer *_outputfile;
-    bool isfilevalid();
+	string_path;
+    Mesh *m_meshdata;
+    Results *m_solution;
+    ofstream m_outfile;
 
     public:
   	// Write class constructor
-    //Writer();
-
+    Writer();
     Writer(string &path, Mesh *meshdata, Results *solution);
     ~Writer();
 
-
   // Function to write solution
-     void WriteSol();
+    void writeSol();
 
   // WWriting header
-  // void Header(std::ofstream&);
+    void writeHeader(std::ofstream &);
     void writeNewZone(std::ofstream &);
     void writeCoord(std::ofstream &);
     void writeVar(std::ofstream &);
