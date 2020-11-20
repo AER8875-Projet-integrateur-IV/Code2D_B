@@ -31,7 +31,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 void Writer::writeSol()
 {
   //ofstream filestream(_path);
-  file.open("Solution.dat");  // Open file
+  Sol.open("Solution.dat");  // Open file
 
   WriteHeader(filestream); // Writing header
 
