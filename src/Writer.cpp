@@ -70,9 +70,9 @@ void Writer::writeCoord(ofstream &filestream)
 	uint32_t returnline = 0;
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
 	{
-	  filestream << m_meshdata-> ostringstream(nNode) ; ->at(2 * returnline) << "\n";
+	  filestream << std::to_string(m_meshdata-> nNode) ; ->at(2 * returnline) << "\n";
 	}
-	for returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
+	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
     {
     	filestream << m_meshdata-> nNode ->at(2 * returnline + 1) << "\n";
     } 
