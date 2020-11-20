@@ -2,7 +2,7 @@
 
 // Constructor
 RoeScheme::RoeScheme(int elem1, int elem2, int faceI, int currElem, Metrics &metrics, Results &SimResults){
-  //: elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
+  : elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
 }
 
 RoeScheme::~RoeScheme(){}

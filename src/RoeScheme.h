@@ -26,6 +26,13 @@ class RoeScheme {
     Metrics metrics;
     Results SimResults;
 
+    int elem1In;
+    int elem2In;
+    int faceIIn;
+    int currElemIn;
+    Metrics &metricsIn;
+    Results &SimResultsIn;
+
     // Functions
     void RoeAvgs();
     void CalcFluxes();
@@ -41,9 +48,6 @@ class RoeScheme {
     double VTilde;
     double qTildeSq;
     double cTilde;
-
-    Metrics &metricsIn;
-    Results &SimResultsIn;
 
     // Vectors/Arrays
 

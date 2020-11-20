@@ -33,6 +33,9 @@ class Mesh
           // Number of boundary conditions
           int nMark;
 
+          // Number of faces in the mesh
+          int nFace;
+
           // Vector containg the boundary condition information
           vector<vector<vector<int>>> bCond;
 

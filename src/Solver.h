@@ -18,6 +18,7 @@ public:
     void ComputeSolver();
     void UpdateBC();
     void ComputeDeltaT();
+    void CalcRes();
 
     std::vector<double> dt;
 

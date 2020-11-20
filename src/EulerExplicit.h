@@ -8,15 +8,8 @@
 #include <vector>
 #include "Mesh.h"
 
-class EulerExplicit {
-  public:
-
-    // Constructor
-    EulerExplicit(Mesh &mesh, std::vector<std::vector<double>> dWn, std::vector<double> dt, std::vector<std::vector<double>> res, std::vector<double> area);
-    ~EulerExplicit();
-
     // Functions
-    void CalcDiscret();
+    std::vector<std::vector<double>> EulerExplicit(Mesh &mesh, std::vector<std::vector<double>> dWn, std::vector<double> dt, std::vector<std::vector<double>> res, std::vector<double> area);
 
     // Vectors
     Mesh _mesh;
@@ -24,5 +17,3 @@ class EulerExplicit {
     std::vector<double> _dt;
     std::vector<std::vector<double>> _res;
     std::vector<double> _area;
-
-};

@@ -1,4 +1,4 @@
-// =============================================================================
+/*// =============================================================================
 //                                  WRITER
 //
 // The purpose of this class is to write the solution to the desired format.
@@ -13,14 +13,14 @@
 #include <fstream>
 
 #include "Mesh.h"
-#include "Results.h" 
+#include "Results.h"
 #include "Solver.h"
 
 
 using namespace std;
 //cout << "here" << endl
 
-class Writer 
+class Writer
 {
 
 	private:
@@ -45,4 +45,4 @@ class Writer
     void writeVar(std::ofstream &);
     void writeElementConnectivity(ofstream &filestream);
 
-};
+};*/

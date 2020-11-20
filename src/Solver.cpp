@@ -12,7 +12,15 @@ Solver::Solver(Mesh &mesh, Input &inputVals, Metrics &metrics)
 void Solver::ComputeSolver(){
   std::cout << "----- Starting iterative process -----" << '\n';
   Solver::UpdateBC();
-  Solver::ComputeDeltaT();
+  std::vector<double> res = {0,0,0,0};
+  int nb_it = 0;
+
+  // Iteration process until convergence
+  while (res[0] > input_sol.errMax && nb_it < input_sol.nbIterMax){
+    Solver::ComputeDeltaT();
+    Solver::CalcRes();
+    nb_it += 1;
+  }
   for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
 
   }
@@ -23,6 +31,18 @@ void Solver::ComputeDeltaT(){
   for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
     dt[iElem] = input_sol.cfl*metrics_sol.area[iElem]/1;
     // Missing spectral radii
+  }
+}
+
+// Calculate residu
+void Solver::CalcRes(){
+  double resRho = 0;
+  double resRhoU = 0;
+  double resRhoV = 0;
+  double resRhoH = 0;
+
+  for (int iFace = 0; iFace<mesh_sol.nFace; iFace++){
+    //resRh0 += Fc[iFace]*
   }
 }
 
