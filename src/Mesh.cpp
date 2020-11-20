@@ -554,7 +554,7 @@ void Mesh::ExternalFaces(){
   vector<vector<int>> lPofa4 = {{0, 1}, {1, 2}, {2, 3}, {3, 0}};
   vector<vector<int>> lPofa3 = {{0, 1}, {1, 2}, {2, 0}};
 
-  int nFace = 0;
+  nFace = 0;
 
   for (int inMark = 0; inMark<nMark; inMark++){
     for(int inElemb = 0; inElemb < nElemb[inMark]; inElemb++){

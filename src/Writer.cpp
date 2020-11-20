@@ -1,4 +1,4 @@
-/*#include "Writer.h"
+#include "Writer.h"
 #include "Mesh.h"
 #include "Results.h"
 #include "Solver.h"
@@ -15,8 +15,10 @@ using namespace std;
 // =============================================================================
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
+	string _path;
 	m_meshdata = meshdata;
 	m_solution = solution;
+	m_outputSol = NULL;
 };
 
 ////////////
@@ -27,27 +29,94 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 // Writing function
 // =============================================================================
-void Writer::~writeSol()
+void Writer::writeSol()
 {
-  //ofstream filestream(_path);
-  file.open("Solution.dat");  // Open file
-
-  WriteHeader(filestream); // Writing header
-
-    filestream(_path);
-	beginFile(filestream);
-	writeNewzone(filestream);
+  //Sol.open("Solution.dat");  // Open file
+    ofstream filestream(_path);
+    writeHeader(filestream); // Writing header
+	writeNewZone(filestream);
 	writeCoord(filestream);
 	writeVar(filestream);
 	///FaceConnectivity(filestream)
 	writeElementConnectivity(filestream);
 
-  file.close(); // Close file
+  filestream.close(); // Close file
 }
 
 // =============================================================================
 // HEADER
 // =============================================================================
+<<<<<<< HEAD
 void Writer::Header(std::ofstream &file){
   file << "hello \n";
 }*/
+=======
+void Writer::writeHeader(std::ofstream &filestream)
+{
+  //file << "hello \n";
+filestream << "TITLE = \"Example\"\n VARIABLES = \"X\",\"Y\",\"Density\",\"Speed U\",\"Speed V\", \"Pressure\", \"Energy\"" << endl;
+}
+
+void Writer::writeNewZone(std::ofstream &filestream)
+{
+	filestream << "ZONE "
+	           << "ZONETYPE = FEQUADRILATERAL "
+	           << "NODES = " << m_meshdata-> nPoin << ", "
+	           << "ELEMENTS = " << m_meshdata-> nElem << ", "
+	           << "FACES = " << m_meshdata-> getnface << ", "
+	           << "NUMCONNECTEDBOUNDARYFACES = 0, TOTALNUMBOUNDARYCONNECTIONS = 0\n "
+	           << "DATAPACKING = BLOCK, VARLOCATION = ([3-7] = CELLCENTERED) \n " ;
+}
+
+///POINTS COORDINATES
+void Writer::writeCoord(ofstream &filestream)
+{
+
+	uint32_t returnline = 0;
+	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
+	{
+	  filestream << _meshdata-> nNode ->at(2 * returnline) << "\n";
+	}
+	for returnline = 0; returnline < unsigned(m_meshdata-> nPoin; returnline = returnline + 1)
+    {
+    	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    }
+}
+
+
+///Variables Writing
+void Tecwriter::writeVar(ofstream &filestream)
+{
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoU[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoV[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->rhoE[iElem] / _solution-> rho[iElem] << "\n";
+	}
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		filestream << _solution->p[iElem] << "\n";
+	}
+}
+
+///Connectivity Writing
+void Tecwriter::writeElementConnectivity(ofstream &filestream)
+{
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+	{
+		for (int jNode = _meshdata->getElement2NodesStart()->at(iElem); jNode < _meshdata->getElement2NodesStart()->at(iElem + 1); jNode++)
+		{
+			filestream << _meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
+		}
+	}
+>>>>>>> a5948f496a60982ee3235d39a74d079959b236dc

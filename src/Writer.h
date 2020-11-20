@@ -1,4 +1,4 @@
-/*// =============================================================================
+// =============================================================================
 //                                  WRITER
 //
 // The purpose of this class is to write the solution to the desired format.
@@ -24,10 +24,11 @@ class Writer
 {
 
 	private:
-	string_path;
+	string _path;
     Mesh *m_meshdata;
     Results *m_solution;
-    ofstream m_outfile;
+    //ofstream m_outfile;
+    FILE *m_outputSol;
 
     public:
   	// Write class constructor
@@ -45,4 +46,4 @@ class Writer
     void writeVar(std::ofstream &);
     void writeElementConnectivity(ofstream &filestream);
 
-};*/
+};
