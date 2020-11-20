@@ -17,7 +17,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
 	//_path = path;
 	m_meshdata = meshdata;
-	m_solution = Results*;
+	m_solution = solution;
 	_outputfile = NULL ;
 };
 
