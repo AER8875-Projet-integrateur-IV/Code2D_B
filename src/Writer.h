@@ -36,10 +36,10 @@ class Writer
     ~Writer();
 
   // Function to write solution
-    void WriteSol();
+    void writeSol();
 
   // WWriting header
-    void WriteHeader(std::ofstream &);
+    void writeHeader(std::ofstream &);
     void writeNewZone(std::ofstream &);
     void writeCoord(std::ofstream &);
     void writeVar(std::ofstream &);
