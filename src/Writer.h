@@ -40,7 +40,7 @@ class Writer
      void WriteSol(std::string outpath, std::vector<std::string> options);
 
   // WWriting header
-    void WriteHeader(std::vector<std::string> options)
+    void WriteHeader(std::vector<std::string> options);
     void writeNewZone(std::vector<std::string> options);
     void writeCoord();
     void writeVar(std::vector<std::string> options);
