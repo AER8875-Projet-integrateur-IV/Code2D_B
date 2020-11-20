@@ -32,7 +32,7 @@ void Writer::WriteSol()
   ofstream file;
   file.open("Solution.dat");  // Open file
 
-  Header(file); // Writing header
+  Writer::Header(file); // Writing header
 
     filestream(_path);
 	beginFile(filestream);

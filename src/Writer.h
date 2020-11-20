@@ -15,7 +15,7 @@
 #include "Mesh.h"
 #include "Results.h" 
 #include "Solver.h"
-//#include "../../tools/stringTools.h"/
+
 
 using namespace std;
 //cout << "here" << endl
@@ -36,10 +36,12 @@ class Writer
     ~Writer();
 
   // Function to write solution
-     void WriteSol();
+     void WriteSol(std::string outpath);
+     void WriteSol(std::string outpath, std);
 
   // WWriting header
   // void Header(std::ofstream&);
+    void WriteHeader()
     void writeNewZone(std::ofstream &);
     void writeCoord(std::ofstream &);
     void writeVar(std::ofstream &);
