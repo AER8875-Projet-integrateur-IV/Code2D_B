@@ -16,13 +16,13 @@ void Solver::ComputeSolver(){
   int nb_it = 0;
 
   // Iteration process until convergence
-  while (res[0] > input_sol.errMax && nb_it < input_sol.nbIterMax){
+  while (/*res[0] > input_sol.errMax &&*/ nb_it < input_sol.nbIterMax){
     Solver::ComputeDeltaT();
     Solver::CalcRes();
     nb_it += 1;
-  }
-  for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
-
+    for (int iElem = 0; iElem <mesh_sol.nElem; iElem++){
+      //std::cout << dt[iElem] << '\n';
+    }
   }
 }
 
@@ -45,6 +45,19 @@ void Solver::CalcRes(){
     //resRh0 += Fc[iFace]*
   }
 }
+
+// Calculate the spectral radii ()
+/*void CalcRadii(int &elem1){
+  double Sx = 0;
+  double Sy = 0;
+
+  for (int iFace = 0; iFace < meconvectiveRadiish_sol.nNode[elem1]; iFace++){
+    Sx +=
+  }
+  convecRadiiX = std::abs(Simulation.u[elem1]+c)*0.5*Sx;
+  convecRadiiY = std::abs(Simulation.v[elem1]+c)*0.5*Sy;
+  convecRadiiTotal = convecRadiiX+convecRadiiY;
+}*/
 
 // Update boundary condition
 void Solver::UpdateBC(){

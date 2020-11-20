@@ -516,12 +516,14 @@ void Mesh::NodeSurrFaces(){
   nEdge = 0;
   int iElem;
   int jPoin;
+  int physEdges = 0;  // For the moment physical edges appear in the mesh. This
+                      // is to tell the owner that the physical edges will appear.
 
   for (int iPoin = 0; iPoin<nPoin; iPoin++){
       for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
         iElem = eSup1[iEsup];
         if (nFael[iElem] == 4){
-          std::cout << "Physical edges will be appearing" << '\n';
+          physEdges = 1;
         }
         for (int iNode = 0; iNode<nNode[iElem]; iNode++){
           jPoin = iNpoel[iElem][iNode];
@@ -536,6 +538,9 @@ void Mesh::NodeSurrFaces(){
         }
         iNpoel2[iPoin+1] = nEdge;
       }
+  }
+  if (physEdges == 1){
+      std::cout << "Physical edges will be appearing" << '\n';
   }
 
   // Verifying function result
