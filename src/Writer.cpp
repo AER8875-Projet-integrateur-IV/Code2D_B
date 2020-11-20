@@ -34,7 +34,7 @@ void Writer::writeSol()
   //Sol.open("Solution.dat");  // Open file
     ofstream filestream(_path);
     writeHeader(filestream); // Writing header
-	writeNewzone(filestream);
+	writeNewZone(filestream);
 	writeCoord(filestream);
 	writeVar(filestream);
 	///FaceConnectivity(filestream) 
@@ -46,6 +46,7 @@ void Writer::writeSol()
 // =============================================================================
 // HEADER
 // =============================================================================
-void Writer::Header(std::ofstream &file){
+void Writer::writeHeader(std::ofstream &file)
+{
   file << "hello \n";
 }
