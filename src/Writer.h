@@ -28,7 +28,7 @@ class Writer
     Mesh *m_meshdata;
     Results *m_solution;
     //ofstream m_outfile;
-    Sol *m_outputSol;
+    FILE *m_outputSol;
 
     public:
   	// Write class constructor
