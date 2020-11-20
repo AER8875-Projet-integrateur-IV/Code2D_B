@@ -23,10 +23,10 @@ class Writer
 {
 
 	private:
-	string_path;
+	//string_path;
     Mesh *m_meshdata;
     Results *m_solution;
-    Writer *m_outfile;
+    ofstream m_outfile;
 
     public:
   	// Write class constructor
