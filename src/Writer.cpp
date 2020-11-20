@@ -9,16 +9,14 @@
 #include <sstream>
 #include <vector>
 
-using std::ofstream;
+using namespace std;
 // =============================================================================
 // CONSTRUCTOR
 // =============================================================================
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
-	//_path = path;
 	m_meshdata = meshdata;
 	m_solution = solution;
-	//m_outfile = NULL ;
 };
 
 ////////////
@@ -31,7 +29,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 void Writer::WriteSol()
 {
-  std::ofstream file;
+  ofstream file;
   file.open("Solution.dat");  // Open file
 
   Header(file); // Writing header
