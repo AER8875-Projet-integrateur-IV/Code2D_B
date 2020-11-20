@@ -27,12 +27,12 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 // =============================================================================
 // Writing function
 // =============================================================================
-void Writer::WriteSol()
+void Writer::~writeSol()
 {
-  ofstream file;
+  //ofstream filestream(_path);
   file.open("Solution.dat");  // Open file
 
-  Writer::Header(file); // Writing header
+  WriteHeader(filestream); // Writing header
 
     filestream(_path);
 	beginFile(filestream);
