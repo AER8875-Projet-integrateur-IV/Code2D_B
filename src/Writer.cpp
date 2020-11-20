@@ -15,6 +15,7 @@ using namespace std;
 // =============================================================================
 Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 {
+	string _path;
 	m_meshdata = meshdata;
 	m_solution = solution;
 };
