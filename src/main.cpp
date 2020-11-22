@@ -28,7 +28,6 @@ int main(int argc, char const *argv[])
   inputs.ComputeInput("Hardcoded");
   Solver solution = Solver(mesh, inputs, metrics);
   solution.ComputeSolver();
-
   //Writer VtuFile = Writer();
 
   return 0;

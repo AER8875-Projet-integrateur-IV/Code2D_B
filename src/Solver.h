@@ -15,14 +15,18 @@
 class Solver{
 public:
     Solver(Mesh &, Input &, Metrics &);
-    void ComputeSolver();
-    void UpdateBC();
-    void ComputeDeltaT();
-    void CalcRes();
+    void ComputeSolver(); // Contains the whole process of the solver and runs every function
+    void UpdateBC();  // Update every boundary condition accordignly
+    void ComputeDeltaT(std::vector<double> u, std::vector<double> v); // Compute local time step
+    void CalcRes(); // Calculate the residual
+    void CalcRadii(int elem1, std::vector<double> u, std::vector<double> v); // Calculate the radii for the local time step
 
     std::vector<double> dt;
 
     Mesh &mesh_sol;
     Input &input_sol;
     Metrics &metrics_sol;
+    double convecRadiiTotal;
+
+    // Objects
 };
