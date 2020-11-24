@@ -587,6 +587,8 @@ void Mesh::ExternalFaces(){
     std::cout << lPoin[i] << '\n';
   }*/
 
+
+
   for (int iElem = 0; iElem<nElem; iElem++){
 
     for (int iFael = 0; iFael<nFael[iElem]; iFael++){
@@ -605,12 +607,26 @@ void Mesh::ExternalFaces(){
         iCoun = iCoun + lPoin[lHelp[iNnofa]];
       }
 
+
       if (iCoun == nNofa){
         nFace += 1;
         bFace.push_back(lHelp);
+
       }
     }
   }
+
+  int totFaces = 0;
+  for (int iElem = 0; iElem<nElem; iElem++){
+    if (nFael[iElem]==3){
+      totFaces += 3;
+    }
+    else{
+      totFaces +=4;
+    }
+  }
+
+  nbFace = (totFaces+nFace)/2;
 
   /*
   for (int i = 0; i<bFace.size(); i++){
@@ -619,7 +635,6 @@ void Mesh::ExternalFaces(){
     }
     std::cout << "=======" << '\n';
   }*/
-
 
 
 // Step2 remove the doubly defined faces
