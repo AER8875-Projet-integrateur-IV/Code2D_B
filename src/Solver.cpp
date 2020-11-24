@@ -22,7 +22,7 @@ void Solver::ComputeSolver(){
     Solver::CalcRes();
     nb_it += 1;
     for (int iElem = 0; iElem <mesh_sol.nElem; iElem++){
-      
+
     }
   }
 }
