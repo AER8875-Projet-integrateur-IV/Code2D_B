@@ -12,7 +12,7 @@
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &, Results &);
+    RoeScheme(int faceIIn, int currElemIn, Metrics &, Results &);
     ~RoeScheme();
 
     // Vectors/Arrays
@@ -37,6 +37,7 @@ class RoeScheme {
     void CalcFluxes();
     std::vector<double> CalcSideFluxes(int &iElem);
     void CalcARoe();
+    void ComputeFluxes();
 
   private:
     // Variables

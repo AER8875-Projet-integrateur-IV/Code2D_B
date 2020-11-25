@@ -1,8 +1,8 @@
 #include "RoeScheme.h"
 
 // Constructor
-RoeScheme::RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn)
-: elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn){
+RoeScheme::RoeScheme(int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn)
+: faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn){
 }
 
 RoeScheme::~RoeScheme(){}
@@ -104,6 +104,12 @@ RoeScheme::~RoeScheme(){}
    for (int i = 0; i<Fluxes.size(); i++){
      Fluxes[i] = 0.5*(FluxR[i]+FluxL[i]-ARoe[i]);
    }
+ }
+
+ void RoeScheme::ComputeFluxes(){
+   RoeScheme::RoeAvgs();
+   RoeScheme::CalcARoe();
+   RoeScheme::CalcFluxes();
  }
 
 
