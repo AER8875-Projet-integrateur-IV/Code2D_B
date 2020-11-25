@@ -19,11 +19,10 @@ void Solver::ComputeSolver(){
   // Iteration process until convergence
   while (/*res[0] > input_sol.errMax &&*/ nb_it < input_sol.nbIterMax){
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
-    Solver::CalcRes();
     nb_it += 1;
-    for (int iElem = 0; iElem <mesh_sol.nElem; iElem++){
-
-    }
+    /*for (int iElem = 0; iElem <mesh_sol.nElem; iElem++){
+      Solver::CalcRes(iElem, {0,0,0,0});
+    }*/
   }
 }
 
@@ -36,15 +35,21 @@ void Solver::ComputeDeltaT(std::vector<double> u, std::vector<double> v){
   }
 }
 
-// Calculate residu
-void Solver::CalcRes(){
+// Calculate residual (valid for 1 element)
+void Solver::CalcRes(int elem1, std::vector<std::vector<double>> Fc){
   double resRho = 0;
   double resRhoU = 0;
   double resRhoV = 0;
   double resRhoH = 0;
 
-  for (int iFace = 0; iFace<mesh_sol.nFace; iFace++){
-    //resRh0 += Fc[iFace]*
+  int faces = mesh_sol.iNpoel[elem1].size();
+
+  for (int iFace = 0; iFace<faces; iFace++){
+    double area = metrics_sol.faceArea[elem1][iFace];
+    resRho += Fc[iFace][0]*area;
+    resRhoU += Fc[iFace][1]*area;
+    resRhoV += Fc[iFace][2]*area;
+    resRhoH += Fc[iFace][3]*area;
   }
 }
 
@@ -74,3 +79,7 @@ void Solver::UpdateBC(){
     }
   }
 }
+
+/*std::std::vector<double> Solver::RoeScheme(){
+
+}*/

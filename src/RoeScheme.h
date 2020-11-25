@@ -1,4 +1,4 @@
-/*// =============================================================================
+// =============================================================================
 //                                  ROE SCHEME
 //
 // The purpose of this class is to implement the different equation related to
@@ -17,27 +17,26 @@ class RoeScheme {
 
     // Vectors/Arrays
     std::vector<double> Fluxes;
+    std::vector<double> ARoe;
 
     // Variables
     int elem1;
     int elem2;
     int faceI;
     int currElem;
-    Metrics metrics;
-    Results SimResults;
+    Metrics &metrics;
+    Results &SimResults;
 
     int elem1In;
     int elem2In;
     int faceIIn;
     int currElemIn;
-    Metrics &metricsIn;
-    Results &SimResultsIn;
 
     // Functions
     void RoeAvgs();
     void CalcFluxes();
     std::vector<double> CalcSideFluxes(int &iElem);
-    std::vector<double> CalcARoe();
+    void CalcARoe();
 
   private:
     // Variables
@@ -54,4 +53,4 @@ class RoeScheme {
     // Functions
 
 
-};*/
+};
