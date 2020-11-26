@@ -1,5 +1,6 @@
 #pragma once
 #include "Mesh.h"
+#include <cmath>
 
   class Metrics {
 
@@ -7,6 +8,9 @@
       // PUBLIC VARIABLES
       // Area vector
       std::vector<double> area;
+
+      // Face area vector
+      std::vector<std::vector<double>> faceArea;
 
       // Centroid vector
       std::vector<std::vector<double>> centroidVec;

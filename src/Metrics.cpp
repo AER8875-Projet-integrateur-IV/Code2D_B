@@ -115,6 +115,7 @@ void Metrics::CalcNormal(const Mesh &Connec){
 
   // Resize the normal vector to match the number of elements
   normalVec.resize(Connec.nElem);
+    faceArea.resize(Connec.nElem);
 
   for (int iElem = 0; iElem<Connec.nElem; iElem++){
     // Find the number of points inside the element
@@ -134,6 +135,9 @@ void Metrics::CalcNormal(const Mesh &Connec){
       std::vector<double> coord1 = Connec.coord[numPt[i]];
       std::vector<double> coord2 = Connec.coord[numPt[i+1]];
 
+      double faceSurface = std::sqrt(std::pow(coord1[0]-coord2[0], 2.0)+std::pow(coord1[1]-coord2[1], 2.0));
+      faceArea[iElem].push_back(faceSurface);
+
       normalVec[iElem][i].push_back(coord2[1]-coord1[1]);
       normalVec[iElem][i].push_back(coord1[0]-coord2[0]);
 
@@ -143,6 +147,7 @@ void Metrics::CalcNormal(const Mesh &Connec){
       }
       std::cout << "\n" << '\n';
       std::cout << "===========" << '\n';*/
+
     }
   }
 }

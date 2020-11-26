@@ -20,10 +20,12 @@ class Results {
     std::vector<double> rho;
     std::vector<double> H;
     std::vector<double> p;
+    std::vector<double> V;
     double pInf;
     double rhoInf;
     double uInf;
     double vInf;
     double HInf;
     double EInf;
+    double gamma;
 };

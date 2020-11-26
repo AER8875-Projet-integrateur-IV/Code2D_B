@@ -12,25 +12,32 @@
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme(int elem1In, int elem2In, int faceIIn, int currElemIn, Metrics &, Results &);
+    RoeScheme(int faceIIn, int currElemIn, Metrics &, Results &);
     ~RoeScheme();
 
     // Vectors/Arrays
     std::vector<double> Fluxes;
+    std::vector<double> ARoe;
 
     // Variables
     int elem1;
     int elem2;
     int faceI;
     int currElem;
-    Metrics metrics;
-    Results SimResults;
+    Metrics &metrics;
+    Results &SimResults;
+
+    int elem1In;
+    int elem2In;
+    int faceIIn;
+    int currElemIn;
 
     // Functions
     void RoeAvgs();
     void CalcFluxes();
     std::vector<double> CalcSideFluxes(int &iElem);
-    std::vector<double> CalcARoe();
+    void CalcARoe();
+    void ComputeFluxes();
 
   private:
     // Variables
@@ -41,9 +48,6 @@ class RoeScheme {
     double VTilde;
     double qTildeSq;
     double cTilde;
-
-    Metrics &metricsIn;
-    Results &SimResultsIn;
 
     // Vectors/Arrays
 

@@ -37,7 +37,7 @@ void Writer::writeSol()
 	writeNewZone(filestream);
 	writeCoord(filestream);
 	writeVar(filestream);
-	///FaceConnectivity(filestream) 
+	///FaceConnectivity(filestream)
 	writeElementConnectivity(filestream);
 
   filestream.close(); // Close file
@@ -55,7 +55,7 @@ filestream << "TITLE = \"Example\"\n VARIABLES = \"X\",\"Y\",\"Density\",\"Speed
 void Writer::writeNewZone(std::ofstream &filestream)
 {
 	filestream << "ZONE "
-	           << "ZONETYPE = FEQUADRILATERAL " 
+	           << "ZONETYPE = FEQUADRILATERAL "
 	           << "NODES = " << m_meshdata-> nPoin << ", "
 	           << "ELEMENTS = " << m_meshdata-> nElem << ", "
 	           //<< "FACES = " << m_meshdata-> getnface << ", "
@@ -74,8 +74,17 @@ void Writer::writeCoord(ofstream &filestream)
 	}
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
     {
+<<<<<<< HEAD
     	filestream << m_meshdata-> nNode ->at(2 * returnline + 1) << "\n";
     } 
+=======
+<<<<<<< HEAD
+    	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    }
+=======
+    	filestream << m_meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    }
+>>>>>>> c273b0130bed2c366338d4a8b1e981eddc963163
 }
 
 
@@ -98,7 +107,11 @@ void Writer::writeVar(ofstream &filestream)
 	{
 		filestream << m_solution-> H[iElem] / m_solution-> rho[iElem] << "\n";
 	}
+<<<<<<< HEAD
 	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)	
+=======
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+>>>>>>> c273b0130bed2c366338d4a8b1e981eddc963163
 	{
 		filestream << m_solution-> p[iElem] << "\n";
 	}
@@ -114,3 +127,4 @@ void Writer::writeElementConnectivity(ofstream &filestream)
 			filestream << m_meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
 		}
 	}
+>>>>>>> a5948f496a60982ee3235d39a74d079959b236dc

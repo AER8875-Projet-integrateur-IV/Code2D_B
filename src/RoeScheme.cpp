@@ -1,8 +1,8 @@
-/*#include "RoeScheme.h"
+#include "RoeScheme.h"
 
 // Constructor
-RoeScheme::RoeScheme(int elem1, int elem2, int faceI, int currElem, Metrics &metrics, Results &SimResults){
-  //: elem1(elem1In), elem2(elem2In), faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn)
+RoeScheme::RoeScheme(int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn)
+: faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn){
 }
 
 RoeScheme::~RoeScheme(){}
@@ -30,8 +30,8 @@ RoeScheme::~RoeScheme(){}
    HTilde = (HL*std::sqrt(rhoL)+HR*std::sqrt(rhoR))/(std::sqrt(rhoL)+std::sqrt(rhoR));
 
    // Calculate V
-   double nx = metrics[currElem][faceI][0];
-   double ny = metrics[currElem][faceI][1];
+   double nx = metrics.normalVec[currElem][faceI][0];
+   double ny = metrics.normalVec[currElem][faceI][1];
    VTilde = uTilde*nx+vTilde*ny;
 
    // Calculate q sqaured
@@ -45,24 +45,26 @@ RoeScheme::~RoeScheme(){}
 
  // Function to calculate F_L and F_R
  std::vector<double> RoeScheme::CalcSideFluxes(int &iElem){
+   double nx = metrics.normalVec[currElem][faceI][0];
+   double ny = metrics.normalVec[currElem][faceI][1];
    std::vector<double> SideFlux;
+
    SideFlux.resize(4);
    SideFlux[0] = SimResults.rho[iElem]*SimResults.V[iElem];
-   SideFlux[1] = SimResults.rho[iElem]*SimResults.u[iElem]*SimResults.V[iElem]+metrics[iElem][faceI].x*SimResults.p[iElem];
-   SideFlux[2] = SimResults.rho[iElem]*SimResults.v[iElem]*SimResults.V[iElem]+metrics[iElem][faceI].y*SimResults.p[iElem];
+   SideFlux[1] = SimResults.rho[iElem]*SimResults.u[iElem]*SimResults.V[iElem]+nx*SimResults.p[iElem];
+   SideFlux[2] = SimResults.rho[iElem]*SimResults.v[iElem]*SimResults.V[iElem]+ny*SimResults.p[iElem];
    SideFlux[3] = SimResults.rho[iElem]*SimResults.H[iElem]*SimResults.V[iElem];
    return SideFlux;
  }
 
- std::vector<double> RoeScheme::CalcARoe(){
-   double nx = metrics[currElem][faceI][0];
-   double ny = metrics[currElem][faceI][1];
+ void RoeScheme::CalcARoe(){
+   double nx = metrics.normalVec[currElem][faceI][0];
+   double ny = metrics.normalVec[currElem][faceI][1];
 
-   std::vector<double> ARoe;
    ARoe.resize(4);
 
-   std::vector<double> deltaF1;
-   deltaF1.resize(4);
+   //std::vector<double> deltaF1;
+   //deltaF1.resize(4);
 
    double deltaP = SimResults.p[elem2]-SimResults.p[elem1];
    double deltaV = SimResults.V[elem2]-SimResults.V[elem1];
@@ -90,20 +92,25 @@ RoeScheme::~RoeScheme(){}
                                deltaMult5*(vTilde+cTilde*ny),
                                deltaMult5*(HTilde+cTilde*VTilde)};
 
-   for (int i = 0; i< ARoe.length(); i++){
+   for (int i = 0; i< ARoe.size(); i++){
      ARoe[i] = deltaF1[i]+deltaF234[i]+deltaF5[i];
    }
-   return ARoe;
  }
 
  void RoeScheme::CalcFluxes(){
    Fluxes.resize(4);
    std::vector<double> FluxL = CalcSideFluxes(elem1);
    std::vector<double> FluxR = CalcSideFluxes(elem2);
-   for (int i = 0; i<Fluxes.length(); i++){
+   for (int i = 0; i<Fluxes.size(); i++){
      Fluxes[i] = 0.5*(FluxR[i]+FluxL[i]-ARoe[i]);
    }
- }*/
+ }
+
+ void RoeScheme::ComputeFluxes(){
+   RoeScheme::RoeAvgs();
+   RoeScheme::CalcARoe();
+   RoeScheme::CalcFluxes();
+ }
 
 
  // HARTEN'S CONDITION STILL MISSING
