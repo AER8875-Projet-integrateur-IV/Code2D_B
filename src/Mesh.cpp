@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
+#include <algorithm>
 
 // =============================================================================
 // CONSTRUCTOR
@@ -517,9 +519,52 @@ void Mesh::NodeSurrFaces(){
   int iElem;
   int jPoin;
   int physEdges = 0;  // For the moment physical edges appear in the mesh. This
-                      // is to tell the owner that the physical edges will appear.
+  // is to tell the owner that the physical edges will appear.
 
-  for (int iPoin = 0; iPoin<nPoin; iPoin++){
+  std::vector<int> temp = {};
+  std::vector<int> dobles = {};
+  std::vector<int> temp2 = {};
+  int nodeToPush1;
+  int nodeToPush2;
+
+  if (nFael[0] == 4){
+    int node1;
+    int node2;
+    int node3;
+    int node4;
+
+    for (int iElem; iElem<nElem; iElem++){
+      temp = {};
+      node1 = iNpoel[iElem][0];
+      node2 = iNpoel[iElem][1];
+      node3 = iNpoel[iElem][2];
+      node4 = iNpoel[iElem][3];
+
+      temp.push_back(node1);
+      temp.push_back(node2);
+      temp.push_back(node3);
+      temp.push_back(node4);
+
+      for (int i = 0; i<4; i++){
+        temp2 = {};
+        nodeToPush1 = temp[i % 4];
+        nodeToPush2 = temp[(i+1) % 4];
+        if (nodeToPush1 > nodeToPush2){
+          std::swap(nodeToPush1, nodeToPush2);
+        }
+        temp2.push_back(nodeToPush1);
+        temp2.push_back(nodeToPush2);
+        iNpoed.push_back(temp2);
+      }
+
+      std::sort(iNpoed.begin(), iNpoed.end());
+      auto last = std::unique(iNpoed.begin(), iNpoed.end());
+      iNpoed.erase(last, iNpoed.end());
+
+    }
+  }
+
+  /*for (int iPoin = 0; iPoin<nPoin; iPoin++){
       for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
         iElem = eSup1[iEsup];
         if (nFael[iElem] == 4){
@@ -538,13 +583,13 @@ void Mesh::NodeSurrFaces(){
         }
         iNpoel2[iPoin+1] = nEdge;
       }
-  }
+  }*/
   if (physEdges == 1){
       std::cout << "Physical edges will be appearing" << '\n';
   }
 
   // Verifying function result
-  /*for (int i = 0; i<iNpoed.size(); i++){
+  for (int i = 0; i<iNpoed.size(); i++){
     for (int j = 0; j < 2; j++){
         std::cout << iNpoed[i][j] << '\n';
     }
@@ -558,7 +603,7 @@ void Mesh::NodeSurrFaces(){
   }
 
   std::cout << "=============" << '\n';
-  std::cout << nEdge << '\n';*/
+  std::cout << nEdge << '\n';
   delete[] lPoin;
 }
 // =============================================================================

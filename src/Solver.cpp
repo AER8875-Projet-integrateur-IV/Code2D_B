@@ -23,7 +23,7 @@ void Solver::ComputeSolver(){
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
     nb_it += 1;
     for (int iElem = 0; iElem <mesh_sol.nElem; iElem++){
-      Solver::CalcRes(iElem, Simulation);
+      //Solver::CalcRes(iElem, Simulation);
       /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
       conservativeVars[0] += deltaW[0];
       conservativeVars[1] += deltaW[1];

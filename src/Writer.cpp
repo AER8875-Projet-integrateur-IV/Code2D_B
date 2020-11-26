@@ -76,7 +76,7 @@ void Writer::writeCoord(ofstream &filestream)
     {
 <<<<<<< HEAD
     	filestream << m_meshdata-> nNode ->at(2 * returnline + 1) << "\n";
-    } 
+    }
 =======
 <<<<<<< HEAD
     	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
@@ -108,7 +108,7 @@ void Writer::writeVar(ofstream &filestream)
 		filestream << m_solution-> H[iElem] / m_solution-> rho[iElem] << "\n";
 	}
 <<<<<<< HEAD
-	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)	
+	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)
 =======
 	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
 >>>>>>> c273b0130bed2c366338d4a8b1e981eddc963163
