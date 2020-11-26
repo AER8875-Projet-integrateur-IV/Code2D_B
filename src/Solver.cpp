@@ -11,7 +11,7 @@ Solver::Solver(Mesh &mesh, Input &inputVals, Metrics &metrics)
 void Solver::ComputeSolver(){
   std::cout << "----- Starting iterative process -----" << '\n';
   Solver::UpdateBC();
-  std::vector<double> res = {0,0,0,0};
+  std::vector<double> res = {1,1,1,1};
   int nb_it = 0;
 
   Results Simulation = Results(mesh_sol, input_sol);
