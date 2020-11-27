@@ -113,11 +113,43 @@ void Metrics::CalcArea(const Mesh &Connec){
 //==============================================================================
 void Metrics::CalcNormal(const Mesh &Connec){
 
+  // Initialize each vector
+  normalVec.resize(Connec.nbFace);
+  faceArea.resize(Connec.nbFace);
+
+  for (int iFace = 0; iFace < Connec.nbFace; iFace++){
+    // Find the nodes associated to this face
+    int node1 = Connec.iNpoed[iFace][0];
+    int node2 = Connec.iNpoed[iFace][1];
+
+    // Find the coords associated to each node
+    std::vector<double> coord1 = Connec.coord[node1];
+    std::vector<double> coord2 = Connec.coord[node2];
+
+    // Calculate the normal vector associated to each face
+    normalVec[iFace].push_back(coord2[1]-coord1[1]);
+    normalVec[iFace].push_back(coord1[0]-coord2[0]);
+
+    // Calculate the surface area associate to each face
+    double faceSurface = std::sqrt(std::pow(coord1[0]-coord2[0], 2.0)+std::pow(coord1[1]-coord2[1], 2.0));
+    faceArea[iFace].push_back(faceSurface);
+
+    // Verify normal coordinates
+    /*for (int j = 0; j<2; j++){
+      std::cout << normalVec[iFace][j] << ' ';
+    }
+    std::cout << "\n" << '\n';
+    std::cout << "===========" << '\n';*/
+
+  }
+  /*
+  // ==================================================================================================
   // Resize the normal vector to match the number of elements
   normalVec.resize(Connec.nElem);
     faceArea.resize(Connec.nElem);
 
   for (int iElem = 0; iElem<Connec.nElem; iElem++){
+
     // Find the number of points inside the element
     int nbPoint = Connec.iNpoel[iElem].size();
 
@@ -142,14 +174,15 @@ void Metrics::CalcNormal(const Mesh &Connec){
       normalVec[iElem][i].push_back(coord1[0]-coord2[0]);
 
       // Verify normal coordinates
-      /*for (int j = 0; j<2; j++){
+      for (int j = 0; j<2; j++){
         std::cout << normalVec[iElem][i][j] << ' ';
       }
       std::cout << "\n" << '\n';
-      std::cout << "===========" << '\n';*/
-
+      std::cout << "===========" << '\n';
     }
   }
+  // ===============================================================================================
+  */
 }
 
 // =============================================================================

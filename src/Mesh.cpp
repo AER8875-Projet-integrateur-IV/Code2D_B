@@ -815,6 +815,7 @@ void Mesh::FaceSurrElem(){
       iPmin = std::min(iPoi1, iPoi2);
       iPmax = std::max(iPoi1, iPoi2);
       //std::cout << iPoi1 << ' ' << iPoi2 << ' ' << iPmin << ' ' << iPmax << '\n';
+      //std::cout << iNpoel2[iPmin] << iNpoel2[iPmin+1] << '\n';
       for (int iEdge = iNpoel2[iPmin]; iEdge < iNpoel2[iPmin+1]; iEdge++){
         //std::cout << iEdge << '\n';
         //std::cout << iPmin << ' ' << iNpoed[iEdge][1] << ' ' << iPmax << '\n';
