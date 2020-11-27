@@ -18,6 +18,21 @@ void Solver::ComputeSolver(){
   res.resize(mesh_sol.nElem);
   conservativeVars.resize(mesh_sol.nElem);
 
+  // Identify what are the internal faces
+  Solver::SortFaces();
+
+  // Verification
+  std::cout << internFace.size() << '\n';
+  for (int i = 0; i < internFace.size(); i++){
+    std::cout << internFace[i] << '\n';
+  }
+
+  std::cout << "----" << '\n';
+
+  for (int i = 0; i < boundFace.size(); i++){
+    std::cout << boundFace[i] << '\n';
+  }
+
   // Iteration process until convergence
   while (/*res[0] > input_sol.errMax &&*/ nb_it < input_sol.nbIterMax){
 
@@ -27,6 +42,10 @@ void Solver::ComputeSolver(){
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
     nb_it += 1;
     for (int iFace = 0; iFace <mesh_sol.nbFace; iFace++){
+
+      // Rearranging normal vector if necessary
+      //Solver::NormalVec(iFace);
+
       //Solver::CalcRes(iFace, Simulation);
       /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
       conservativeVars[0] += deltaW[0];
@@ -127,6 +146,43 @@ std::vector<double> Solver::EulerExplicit(Mesh &mesh, double dt, std::vector<dou
 void Solver::ResReset(std::vector<double> &res){
   for (int i = 0; i < res.size(); i++){
     res[i] = 0;
+  }
+}
+
+void Solver::NormalVec(int &iFace){
+
+  // Extract the elements on both sides of the face
+  int elem1 = mesh_sol.eSufa[iFace][0];
+  int elem2 = mesh_sol.eSufa[iFace][1];
+
+  // Extract the coordinates of both centroid
+  double x1 = metrics_sol.centroidVec[elem1][0];
+  double y1 = metrics_sol.centroidVec[elem1][1];
+  double x2 = metrics_sol.centroidVec[elem2][0];
+  double y2 = metrics_sol.centroidVec[elem2][1];
+
+  double x = x2-x1;
+  double y = y2-y1;
+
+  double scalarProd = x*metrics_sol.normalVec[iFace][0]+y*metrics_sol.normalVec[iFace][1];
+
+  // Flip side if necessary
+  if (scalarProd < 0){
+    metrics_sol.normalVec[iFace][0] *= -1;
+    metrics_sol.normalVec[iFace][1] *= -1;
+  }
+}
+
+void Solver::SortFaces(){
+  internFace = {};
+  boundFace = {};
+  for(int iFace = 0; iFace < mesh_sol.nbFace; iFace++){
+    if(mesh_sol.eSufa[iFace].size() == 2){
+      internFace.push_back(iFace);
+    }
+    else{
+      boundFace.push_back(iFace);
+    }
   }
 }
 

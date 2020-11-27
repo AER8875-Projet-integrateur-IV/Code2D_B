@@ -24,10 +24,14 @@ public:
     void CalcRadii(int elem1, std::vector<double> u, std::vector<double> v); // Calculate the radii for the local time step
     std::vector<double> EulerExplicit(Mesh &, double dt, std::vector<double> res, double area); // Euler Explicit Scheme
     void ResReset(std::vector<double> &); // Reset the residuals vector
+    void NormalVec(int &); // Flip normal vector if necessary
+    void SortFaces(); // Sort the faces to see if they are on the boundary or not
 
     std::vector<double> dt;
     std::vector<std::vector<double>> res;
     std::vector<std::vector<double>> conservativeVars;
+    std::vector<int> internFace;
+    std::vector<int> boundFace;
 
     Mesh &mesh_sol;
     Input &input_sol;
