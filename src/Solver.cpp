@@ -21,30 +21,20 @@ void Solver::ComputeSolver(){
   // Identify what are the internal faces
   Solver::SortFaces();
 
-  // Verification
-  std::cout << internFace.size() << '\n';
-  for (int i = 0; i < internFace.size(); i++){
-    std::cout << internFace[i] << '\n';
-  }
-
-  std::cout << "----" << '\n';
-
-  for (int i = 0; i < boundFace.size(); i++){
-    std::cout << boundFace[i] << '\n';
-  }
-
   // Iteration process until convergence
-  while (/*res[0] > input_sol.errMax &&*/ nb_it < input_sol.nbIterMax){
-
+  while (/*res[0] > input_sol.errMax &&*/ nb_it < 1000){
+    //std::cout << nb_it << '\n';
     // Reset the residuals for every element
     Solver::ResReset(res);
 
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
     nb_it += 1;
-    for (int iFace = 0; iFace <mesh_sol.nbFace; iFace++){
-
+    // Looping over the internal faces
+    for (int iFace = 0; iFace <internFace.size(); iFace++){
+      int currFace = internFace[iFace];
+      //std::cout << "hello" << '\n';
       // Rearranging normal vector if necessary
-      //Solver::NormalVec(iFace);
+      Solver::NormalVecIntern(currFace);
 
       //Solver::CalcRes(iFace, Simulation);
       /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
@@ -52,6 +42,14 @@ void Solver::ComputeSolver(){
       conservativeVars[1] += deltaW[1];
       conservativeVars[2] += deltaW[2];
       conservativeVars[3] += deltaW[3];*/
+    }
+
+    // Looping ovr the boundary faces
+    for (int iFace = 0; iFace <boundFace.size(); iFace++){
+      int currFace = internFace[iFace];
+
+      // Rearranging normal vector if necessary
+      Solver::NormalVecBC(currFace);
     }
   }
 }
@@ -149,7 +147,7 @@ void Solver::ResReset(std::vector<double> &res){
   }
 }
 
-void Solver::NormalVec(int &iFace){
+void Solver::NormalVecIntern(int &iFace){
 
   // Extract the elements on both sides of the face
   int elem1 = mesh_sol.eSufa[iFace][0];
@@ -160,9 +158,32 @@ void Solver::NormalVec(int &iFace){
   double y1 = metrics_sol.centroidVec[elem1][1];
   double x2 = metrics_sol.centroidVec[elem2][0];
   double y2 = metrics_sol.centroidVec[elem2][1];
-
   double x = x2-x1;
   double y = y2-y1;
+
+  double scalarProd = x*metrics_sol.normalVec[iFace][0]+y*metrics_sol.normalVec[iFace][1];
+
+  // Flip side if necessary
+  if (scalarProd < 0){
+    metrics_sol.normalVec[iFace][0] *= -1;
+    metrics_sol.normalVec[iFace][1] *= -1;
+  }
+}
+
+void Solver::NormalVecBC(int &iFace){
+  int elem1 = mesh_sol.eSufa[iFace][0];
+
+  // Extract the coordinates of both centroid
+  double x1 = metrics_sol.centroidVec[elem1][0];
+  double y1 = metrics_sol.centroidVec[elem1][1];
+
+  int node = mesh_sol.iNpoed[iFace][0];
+
+  double coordNodeX = metrics_sol.centroidVec[elem1][0];
+  double coordNodeY = metrics_sol.centroidVec[elem1][1];
+
+  double x = coordNodeX - x1;
+  double y = coordNodeY - y1;
 
   double scalarProd = x*metrics_sol.normalVec[iFace][0]+y*metrics_sol.normalVec[iFace][1];
 
