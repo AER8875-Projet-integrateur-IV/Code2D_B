@@ -20,10 +20,14 @@ void Solver::ComputeSolver(){
 
   // Iteration process until convergence
   while (/*res[0] > input_sol.errMax &&*/ nb_it < input_sol.nbIterMax){
+
+    // Reset the residuals for every element
+    Solver::ResReset(res);
+
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
     nb_it += 1;
     for (int iFace = 0; iFace <mesh_sol.nbFace; iFace++){
-      Solver::CalcRes(iFace, Simulation);
+      //Solver::CalcRes(iFace, Simulation);
       /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
       conservativeVars[0] += deltaW[0];
       conservativeVars[1] += deltaW[1];
@@ -118,6 +122,12 @@ std::vector<double> Solver::EulerExplicit(Mesh &mesh, double dt, std::vector<dou
   _dWn[2] = - dt/area*res[2];  // rhoV
   _dWn[3] = - dt/area*res[3];  // rhoEiElem
   return _dWn;
+}
+
+void Solver::ResReset(std::vector<double> &res){
+  for (int i = 0; i < res.size(); i++){
+    res[i] = 0;
+  }
 }
 
 /*std::std::vector<double> Solver::RoeScheme(){

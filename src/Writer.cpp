@@ -1,4 +1,4 @@
-#include "Writer.h"
+/*#include "Writer.h"
 #include "Mesh.h"
 #include "Results.h"
 #include "Solver.h"
@@ -127,4 +127,4 @@ void Writer::writeElementConnectivity(ofstream &filestream)
 			filestream << m_meshdata->getElement2Nodes()->at(jNode) + 1 << "\t";
 		}
 	}
->>>>>>> a5948f496a60982ee3235d39a74d079959b236dc
+>>>>>>> a5948f496a60982ee3235d39a74d079959b236dc*/
