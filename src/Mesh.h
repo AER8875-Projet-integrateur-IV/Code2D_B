@@ -71,6 +71,9 @@ class Mesh
           vector<vector<int>> bounType;
           //vector<vector<vector<int>>> lPofa;
 
+          // Variables used for the element surrounding faces connectivity
+          vector<vector<int>> eSufa;
+
       //Constructor
       public:
           Mesh();
@@ -96,6 +99,9 @@ class Mesh
 
           // Face surrounding element connectivity
           void FaceSurrElem();
+
+          // Element surrounding faces connectivity
+          void ElemSurrFace();
 
           // Function to call other functions
           void SolveMesh(std::string filePath);

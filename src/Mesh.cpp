@@ -27,6 +27,7 @@ void Mesh::SolveMesh(std::string filePath){
   Mesh::NodeSurrFaces();
   Mesh::ExternalFaces();
   Mesh::FaceSurrElem();
+  Mesh::ElemSurrFace();
   std::cout << "----- Mesh connectivity DONE ------------" << std::endl;
 }
 
@@ -563,33 +564,31 @@ void Mesh::NodeSurrFaces(){
 
     }
   }
-
-  /*for (int iPoin = 0; iPoin<nPoin; iPoin++){
-      for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
-        iElem = eSup1[iEsup];
-        if (nFael[iElem] == 4){
-          physEdges = 1;
-        }
-        for (int iNode = 0; iNode<nNode[iElem]; iNode++){
-          jPoin = iNpoel[iElem][iNode];
-          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
-            if (iPoin < jPoin){
-              nEdge +=1;
-              vector<int> temp_vec ={iPoin, jPoin};
-              iNpoed.push_back(temp_vec);
-              lPoin[jPoin] = iPoin;
+  else {
+    for (int iPoin = 0; iPoin<nPoin; iPoin++){
+        for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
+          iElem = eSup1[iEsup];
+          if (nFael[iElem] == 4){
+            physEdges = 1;
+          }
+          for (int iNode = 0; iNode<nNode[iElem]; iNode++){
+            jPoin = iNpoel[iElem][iNode];
+            if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
+              if (iPoin < jPoin){
+                nEdge +=1;
+                vector<int> temp_vec ={iPoin, jPoin};
+                iNpoed.push_back(temp_vec);
+                lPoin[jPoin] = iPoin;
+              }
             }
           }
+          iNpoel2[iPoin+1] = nEdge;
         }
-        iNpoel2[iPoin+1] = nEdge;
-      }
-  }*/
-  if (physEdges == 1){
-      std::cout << "Physical edges will be appearing" << '\n';
+    }
   }
 
   // Verifying function result
-  for (int i = 0; i<iNpoed.size(); i++){
+  /*for (int i = 0; i<iNpoed.size(); i++){
     for (int j = 0; j < 2; j++){
         std::cout << iNpoed[i][j] << '\n';
     }
@@ -603,7 +602,7 @@ void Mesh::NodeSurrFaces(){
   }
 
   std::cout << "=============" << '\n';
-  std::cout << nEdge << '\n';
+  std::cout << nEdge << '\n';*/
   delete[] lPoin;
 }
 // =============================================================================
@@ -838,6 +837,50 @@ void Mesh::FaceSurrElem(){
       std::cout << iNedel[i][j] << '\n';
     }
     std::cout << "===============" << '\n';
+  }*/
+}
+
+// =============================================================================
+// ELEMENT SURROUNDING FACES CONNECTIVITY
+//==============================================================================
+void Mesh::ElemSurrFace(){
+
+  // Resize the vector to match the number of faces
+  //eSufa.reserve(nbFace);
+
+  // Initialize a temporary vector
+  std::vector<int> temp;
+  temp.reserve(2);
+
+  for (int iFace = 0; iFace < nbFace; iFace++){
+    temp = {};
+
+    // Find the corresponding nodes of a face
+    int &node1 = iNpoed[iFace][0];
+    int &node2 = iNpoed[iFace][1];
+
+    for (int iElem1 = eSup2[node1]; iElem1 < eSup2[node1+1]; iElem1++){
+      int &elem1 = eSup1[iElem1];
+      for (int iElem2 = eSup2[node2]; iElem2 < eSup2[node2+1]; iElem2++){
+        int &elem2 = eSup1[iElem2];
+        /*std::cout << elem1 << '\n';
+        std::cout << "---" << '\n';
+        std::cout << elem2 << '\n';*/
+        if (elem1 == elem2){
+          temp.push_back(elem1);
+          break;
+        }
+      }
+    }
+    eSufa.push_back(temp);
+  }
+
+  // Function verification
+  /*for (int i = 0; i < nbFace; i++){
+    for (int j = 0; j < eSufa[i].size(); j++){
+      std::cout << eSufa[i][j] << '\n';
+    }
+    std::cout << "-------" << '\n';
   }*/
 }
 
