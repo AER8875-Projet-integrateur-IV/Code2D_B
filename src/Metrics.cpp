@@ -132,7 +132,7 @@ void Metrics::CalcNormal(const Mesh &Connec){
 
     // Calculate the surface area associate to each face
     double faceSurface = std::sqrt(std::pow(coord1[0]-coord2[0], 2.0)+std::pow(coord1[1]-coord2[1], 2.0));
-    faceArea[iFace].push_back(faceSurface);
+    faceArea[iFace] = (faceSurface);
 
     // Verify normal coordinates
     /*for (int j = 0; j<2; j++){

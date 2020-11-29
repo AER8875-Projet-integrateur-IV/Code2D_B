@@ -10,7 +10,7 @@
       std::vector<double> area;
 
       // Face area vector
-      std::vector<std::vector<double>> faceArea;
+      std::vector<double> faceArea;
 
       // Centroid vector
       std::vector<std::vector<double>> centroidVec;

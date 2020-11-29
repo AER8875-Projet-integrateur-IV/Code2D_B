@@ -23,7 +23,7 @@ public:
     void CalcRes(int faceI, Results &); // Calculate the residual
     void CalcRadii(int elem1, std::vector<double> u, std::vector<double> v); // Calculate the radii for the local time step
     std::vector<double> EulerExplicit(Mesh &, double dt, std::vector<double> res, double area); // Euler Explicit Scheme
-    void ResReset(std::vector<double> &); // Reset the residuals vector
+    void ResReset(); // Reset the residuals vector
     void NormalVecIntern(int &); // Flip internal normal vector if necessary
     void NormalVecBC(int &);  // Flip boundary normal vector if necessary
     void SortFaces(); // Sort the faces to see if they are on the boundary or not

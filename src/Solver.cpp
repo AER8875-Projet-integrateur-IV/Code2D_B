@@ -11,11 +11,18 @@ Solver::Solver(Mesh &mesh, Input &inputVals, Metrics &metrics)
 void Solver::ComputeSolver(){
   std::cout << "----- Starting iterative process -----" << '\n';
   Solver::UpdateBC();
-  std::vector<double> res = {1,1,1,1};
+  // Initialize residuals vector
+  res.resize(mesh_sol.nElem);
+  for (int i = 0; i < mesh_sol.nElem; i++){
+    res[i].resize(4);
+    for (int j = 0; j < 4; j++){
+      res[i][j] = 1;
+    }
+  }
   int nb_it = 0;
 
   Results Simulation = Results(mesh_sol, input_sol);
-  res.resize(mesh_sol.nElem);
+  //res.resize(mesh_sol.nElem);
   conservativeVars.resize(mesh_sol.nElem);
 
   // Identify what are the internal faces
@@ -25,18 +32,17 @@ void Solver::ComputeSolver(){
   while (/*res[0] > input_sol.errMax &&*/ nb_it < 1000){
     //std::cout << nb_it << '\n';
     // Reset the residuals for every element
-    Solver::ResReset(res);
+    Solver::ResReset();
 
     Solver::ComputeDeltaT(Simulation.u, Simulation.v);
     nb_it += 1;
     // Looping over the internal faces
     for (int iFace = 0; iFace <internFace.size(); iFace++){
       int currFace = internFace[iFace];
-      //std::cout << "hello" << '\n';
+
       // Rearranging normal vector if necessary
       Solver::NormalVecIntern(currFace);
-
-      //Solver::CalcRes(iFace, Simulation);
+      Solver::CalcRes(currFace, Simulation);
       /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
       conservativeVars[0] += deltaW[0];
       conservativeVars[1] += deltaW[1];
@@ -71,23 +77,30 @@ void Solver::CalcRes(int iFace, Results &simulation){
   double resRhoV = 0;
   double resRhoH = 0;
 
-  int elem1 = 0;
+  // Identify the faces surrounding the face
+  int elem1 = mesh_sol.eSufa[iFace][0];
+  int elem2 = mesh_sol.eSufa[iFace][1];
+
   int faces = mesh_sol.iNpoel[elem1].size();
-  res[elem1].resize(faces);
 
-  for (int iFace = 0; iFace<faces; iFace++){
-    double area = metrics_sol.faceArea[elem1][iFace];
-    RoeScheme Fc = RoeScheme(iFace, metrics_sol, simulation, mesh_sol);
+  double area = metrics_sol.faceArea[iFace];
+  RoeScheme Fc = RoeScheme(iFace, metrics_sol, simulation, mesh_sol);
+  Fc.ComputeFluxes();
+  resRho = Fc.Fluxes[0]*area;
+  resRhoU = Fc.Fluxes[1]*area;
+  resRhoV = Fc.Fluxes[2]*area;
+  resRhoH = Fc.Fluxes[3]*area;
 
-    resRho += Fc.Fluxes[0]*area;
-    resRhoU += Fc.Fluxes[1]*area;
-    resRhoV += Fc.Fluxes[2]*area;
-    resRhoH += Fc.Fluxes[3]*area;
-  }
-  res[elem1].push_back(resRho);
-  res[elem1].push_back(resRhoU);
-  res[elem1].push_back(resRhoV);
-  res[elem1].push_back(resRhoH);
+  // Adding residual to both sides of the face
+  res[elem1][0] += resRho;
+  res[elem1][1] += resRhoU;
+  res[elem1][2] += resRhoV;
+  res[elem1][3] += resRhoH;
+
+  res[elem2][0] += resRho;
+  res[elem2][1] += resRhoU;
+  res[elem2][2] += resRhoV;
+  res[elem2][3] += resRhoH;
 }
 
 // Calculate the spectral radii ()  // -> COMPLÉTÉ MAIS AVEC PLUSIEURS PROBLÈMES (deltaS et c)
@@ -141,9 +154,12 @@ std::vector<double> Solver::EulerExplicit(Mesh &mesh, double dt, std::vector<dou
   return _dWn;
 }
 
-void Solver::ResReset(std::vector<double> &res){
+void Solver::ResReset(){
   for (int i = 0; i < res.size(); i++){
-    res[i] = 0;
+    res[i].resize(0);
+    for (int j = 0; j < res[i].size(); j++){
+      res[i][j] = 0;
+    }
   }
 }
 
