@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
+#include <algorithm>
 
 // =============================================================================
 // CONSTRUCTOR
@@ -25,6 +27,7 @@ void Mesh::SolveMesh(std::string filePath){
   Mesh::NodeSurrFaces();
   Mesh::ExternalFaces();
   Mesh::FaceSurrElem();
+  Mesh::ElemSurrFace();
   std::cout << "----- Mesh connectivity DONE ------------" << std::endl;
 }
 
@@ -517,30 +520,71 @@ void Mesh::NodeSurrFaces(){
   int iElem;
   int jPoin;
   int physEdges = 0;  // For the moment physical edges appear in the mesh. This
-                      // is to tell the owner that the physical edges will appear.
+  // is to tell the owner that the physical edges will appear.
 
-  for (int iPoin = 0; iPoin<nPoin; iPoin++){
-      for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
-        iElem = eSup1[iEsup];
-        if (nFael[iElem] == 4){
-          physEdges = 1;
+  std::vector<int> temp = {};
+  std::vector<int> dobles = {};
+  std::vector<int> temp2 = {};
+  int nodeToPush1;
+  int nodeToPush2;
+
+  if (nFael[0] == 4){
+    int node1;
+    int node2;
+    int node3;
+    int node4;
+
+    for (int iElem; iElem<nElem; iElem++){
+      temp = {};
+      node1 = iNpoel[iElem][0];
+      node2 = iNpoel[iElem][1];
+      node3 = iNpoel[iElem][2];
+      node4 = iNpoel[iElem][3];
+
+      temp.push_back(node1);
+      temp.push_back(node2);
+      temp.push_back(node3);
+      temp.push_back(node4);
+
+      for (int i = 0; i<4; i++){
+        temp2 = {};
+        nodeToPush1 = temp[i % 4];
+        nodeToPush2 = temp[(i+1) % 4];
+        if (nodeToPush1 > nodeToPush2){
+          std::swap(nodeToPush1, nodeToPush2);
         }
-        for (int iNode = 0; iNode<nNode[iElem]; iNode++){
-          jPoin = iNpoel[iElem][iNode];
-          if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
-            if (iPoin < jPoin){
-              nEdge +=1;
-              vector<int> temp_vec ={iPoin, jPoin};
-              iNpoed.push_back(temp_vec);
-              lPoin[jPoin] = iPoin;
+        temp2.push_back(nodeToPush1);
+        temp2.push_back(nodeToPush2);
+        iNpoed.push_back(temp2);
+      }
+
+      std::sort(iNpoed.begin(), iNpoed.end());
+      auto last = std::unique(iNpoed.begin(), iNpoed.end());
+      iNpoed.erase(last, iNpoed.end());
+
+    }
+  }
+  else {
+    for (int iPoin = 0; iPoin<nPoin; iPoin++){
+        for (int iEsup = eSup2[iPoin]; iEsup<eSup2[iPoin+1]; iEsup++){
+          iElem = eSup1[iEsup];
+          if (nFael[iElem] == 4){
+            physEdges = 1;
+          }
+          for (int iNode = 0; iNode<nNode[iElem]; iNode++){
+            jPoin = iNpoel[iElem][iNode];
+            if ((jPoin != iPoin) && (lPoin[jPoin] != iPoin || iPoin == 0)){
+              if (iPoin < jPoin){
+                nEdge +=1;
+                vector<int> temp_vec ={iPoin, jPoin};
+                iNpoed.push_back(temp_vec);
+                lPoin[jPoin] = iPoin;
+              }
             }
           }
+          iNpoel2[iPoin+1] = nEdge;
         }
-        iNpoel2[iPoin+1] = nEdge;
-      }
-  }
-  if (physEdges == 1){
-      std::cout << "Physical edges will be appearing" << '\n';
+    }
   }
 
   // Verifying function result
@@ -771,6 +815,7 @@ void Mesh::FaceSurrElem(){
       iPmin = std::min(iPoi1, iPoi2);
       iPmax = std::max(iPoi1, iPoi2);
       //std::cout << iPoi1 << ' ' << iPoi2 << ' ' << iPmin << ' ' << iPmax << '\n';
+      //std::cout << iNpoel2[iPmin] << iNpoel2[iPmin+1] << '\n';
       for (int iEdge = iNpoel2[iPmin]; iEdge < iNpoel2[iPmin+1]; iEdge++){
         //std::cout << iEdge << '\n';
         //std::cout << iPmin << ' ' << iNpoed[iEdge][1] << ' ' << iPmax << '\n';
@@ -793,6 +838,50 @@ void Mesh::FaceSurrElem(){
       std::cout << iNedel[i][j] << '\n';
     }
     std::cout << "===============" << '\n';
+  }*/
+}
+
+// =============================================================================
+// ELEMENT SURROUNDING FACES CONNECTIVITY
+//==============================================================================
+void Mesh::ElemSurrFace(){
+
+  // Resize the vector to match the number of faces
+  //eSufa.reserve(nbFace);
+
+  // Initialize a temporary vector
+  std::vector<int> temp;
+  temp.reserve(2);
+
+  for (int iFace = 0; iFace < nbFace; iFace++){
+    temp = {};
+
+    // Find the corresponding nodes of a face
+    int &node1 = iNpoed[iFace][0];
+    int &node2 = iNpoed[iFace][1];
+
+    for (int iElem1 = eSup2[node1]; iElem1 < eSup2[node1+1]; iElem1++){
+      int &elem1 = eSup1[iElem1];
+      for (int iElem2 = eSup2[node2]; iElem2 < eSup2[node2+1]; iElem2++){
+        int &elem2 = eSup1[iElem2];
+        /*std::cout << elem1 << '\n';
+        std::cout << "---" << '\n';
+        std::cout << elem2 << '\n';*/
+        if (elem1 == elem2){
+          temp.push_back(elem1);
+          break;
+        }
+      }
+    }
+    eSufa.push_back(temp);
+  }
+
+  // Function verification
+  /*for (int i = 0; i < nbFace; i++){
+    for (int j = 0; j < eSufa[i].size(); j++){
+      std::cout << eSufa[i][j] << '\n';
+    }
+    std::cout << "-------" << '\n';
   }*/
 }
 

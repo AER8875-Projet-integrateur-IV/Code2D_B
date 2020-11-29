@@ -1,52 +1,52 @@
 #include "RoeScheme.h"
 
 // Constructor
-RoeScheme::RoeScheme(int faceIIn, int currElemIn, Metrics &metricsIn, Results &SimResultsIn)
-: faceI(faceIIn), currElem(currElemIn), metrics(metricsIn), SimResults(SimResultsIn){
+RoeScheme::RoeScheme(int faceIIn, Metrics &metricsIn, Results &SimResultsIn, Mesh &meshIn)
+: faceI(faceIIn), metrics(metricsIn), SimResults(SimResultsIn), mesh(meshIn){
 }
 
 RoeScheme::~RoeScheme(){}
 
  void RoeScheme::RoeAvgs(){
+   std::cout << faceI << '\n';
+   elem1 = mesh.eSufa[faceI][0];
+   elem2 = mesh.eSufa[faceI][1];
 
    // Calculate rho
+   std::cout << elem1 << '\n';
+   std::cout << elem2 << '\n';
+   //std::cout << SimResults.rho[elem1] << '\n';
+   //std::cout << SimResults.rho[elem2] << '\n';
    double rhoL = SimResults.rho[elem1];
    double rhoR = SimResults.rho[elem2];
    rhoTilde = std::sqrt(rhoL-rhoR);
-
    // Calculate u
    double uL = SimResults.u[elem1];
    double uR = SimResults.u[elem2];
    uTilde = (uL*std::sqrt(rhoL)+uR*std::sqrt(rhoR))/(std::sqrt(rhoL)+std::sqrt(rhoR));
-
    // Calculate v
    double vL = SimResults.v[elem1];
    double vR = SimResults.v[elem2];
    vTilde = (vL*std::sqrt(rhoL)+vR*std::sqrt(rhoR))/(std::sqrt(rhoL)+std::sqrt(rhoR));
-
    // Calculate H
    double HL = SimResults.H[elem1];
    double HR = SimResults.H[elem2];
    HTilde = (HL*std::sqrt(rhoL)+HR*std::sqrt(rhoR))/(std::sqrt(rhoL)+std::sqrt(rhoR));
-
    // Calculate V
-   double nx = metrics.normalVec[currElem][faceI][0];
-   double ny = metrics.normalVec[currElem][faceI][1];
+   double nx = metrics.normalVec[faceI][0];
+   double ny = metrics.normalVec[faceI][1];
    VTilde = uTilde*nx+vTilde*ny;
-
    // Calculate q sqaured
    qTildeSq = uTilde*uTilde+vTilde*vTilde;
-
    // Calculate c
    double gamma = SimResults.gamma;
    cTilde = std::sqrt((gamma-1)*(HTilde-qTildeSq/2));
-
  }
 
  // Function to calculate F_L and F_R
  std::vector<double> RoeScheme::CalcSideFluxes(int &iElem){
-   double nx = metrics.normalVec[currElem][faceI][0];
-   double ny = metrics.normalVec[currElem][faceI][1];
+   double nx = metrics.normalVec[faceI][0];
+   double ny = metrics.normalVec[faceI][1];
    std::vector<double> SideFlux;
 
    SideFlux.resize(4);
@@ -58,8 +58,8 @@ RoeScheme::~RoeScheme(){}
  }
 
  void RoeScheme::CalcARoe(){
-   double nx = metrics.normalVec[currElem][faceI][0];
-   double ny = metrics.normalVec[currElem][faceI][1];
+   double nx = metrics.normalVec[faceI][0];
+   double ny = metrics.normalVec[faceI][1];
 
    ARoe.resize(4);
 

@@ -1,4 +1,4 @@
-#include "Writer.h"
+/*#include "Writer.h"
 #include "Mesh.h"
 #include "Results.h"
 #include "Solver.h"
@@ -75,12 +75,26 @@ void Writer::writeCoord(ofstream &filestream)
 	}
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
     {
+<<<<<<< HEAD
 
     	filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
     } 
 
     	filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
     
+=======
+<<<<<<< HEAD
+    	filestream << m_meshdata-> nNode ->at(2 * returnline + 1) << "\n";
+    }
+=======
+<<<<<<< HEAD
+    	filestream << _meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    }
+=======
+    	filestream << m_meshdata->getNodes()->at(2 * returnline + 1) << "\n";
+    }
+>>>>>>> c273b0130bed2c366338d4a8b1e981eddc963163
+>>>>>>> 4c466587b9e40d372cb0c7ad2c31cd82bd8c70af
 }
 
 
@@ -104,9 +118,17 @@ void Writer::writeVar(ofstream &filestream)
 	{
 		filestream << m_solution-> H[iElem] / m_solution-> rho[iElem] << "\n";
 	}
+<<<<<<< HEAD
 
 	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)	
 
+=======
+<<<<<<< HEAD
+	for (int iElem = 0; iElem < m_meshdata-> nElem ; iElem++)
+=======
+	for (int iElem = 0; iElem < _meshdata->getNELEM(); iElem++)
+>>>>>>> c273b0130bed2c366338d4a8b1e981eddc963163
+>>>>>>> 4c466587b9e40d372cb0c7ad2c31cd82bd8c70af
 	{
 		filestream << m_solution-> p[iElem] << "\n";
 	}
@@ -122,6 +144,10 @@ void Writer::writeElementConnectivity(ofstream &filestream)
 			filestream << m_meshdata-> lNofa .at(jNode) .at(0) + 1 << "\t";
 		}
 	}
+<<<<<<< HEAD
 }
 
 
+=======
+>>>>>>> a5948f496a60982ee3235d39a74d079959b236dc*/
+>>>>>>> 4c466587b9e40d372cb0c7ad2c31cd82bd8c70af

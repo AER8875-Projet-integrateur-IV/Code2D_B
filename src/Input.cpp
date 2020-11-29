@@ -9,6 +9,7 @@ void Input::ComputeInput(std::string trigger){
   if (trigger == "Hardcoded"){
     Input::HardCoded();
   }
+
   //Input::Calculations();
   std::cout << "----- Initialization of inputs completed ------" << '\n';
 }

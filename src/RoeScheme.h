@@ -12,7 +12,7 @@
 class RoeScheme {
   public:
     // Constructor
-    RoeScheme(int faceIIn, int currElemIn, Metrics &, Results &);
+    RoeScheme(int faceIIn, Metrics &, Results &, Mesh &);
     ~RoeScheme();
 
     // Vectors/Arrays
@@ -26,11 +26,8 @@ class RoeScheme {
     int currElem;
     Metrics &metrics;
     Results &SimResults;
-
-    int elem1In;
-    int elem2In;
+    Mesh &mesh;
     int faceIIn;
-    int currElemIn;
 
     // Functions
     void RoeAvgs();

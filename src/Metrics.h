@@ -10,13 +10,13 @@
       std::vector<double> area;
 
       // Face area vector
-      std::vector<std::vector<double>> faceArea;
+      std::vector<double> faceArea;
 
       // Centroid vector
       std::vector<std::vector<double>> centroidVec;
 
       // Normal vector
-      std::vector<std::vector<std::vector<double>>> normalVec;
+      std::vector<std::vector<double>> normalVec;
 
       // Normal array
       //int** normal;
