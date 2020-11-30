@@ -8,15 +8,10 @@ RoeScheme::RoeScheme(int faceIIn, Metrics &metricsIn, Results &SimResultsIn, Mes
 RoeScheme::~RoeScheme(){}
 
  void RoeScheme::RoeAvgs(){
-   std::cout << faceI << '\n';
    elem1 = mesh.eSufa[faceI][0];
    elem2 = mesh.eSufa[faceI][1];
 
    // Calculate rho
-   std::cout << elem1 << '\n';
-   std::cout << elem2 << '\n';
-   //std::cout << SimResults.rho[elem1] << '\n';
-   //std::cout << SimResults.rho[elem2] << '\n';
    double rhoL = SimResults.rho[elem1];
    double rhoR = SimResults.rho[elem2];
    rhoTilde = std::sqrt(rhoL-rhoR);

@@ -24,13 +24,17 @@ void Solver::ComputeSolver(){
   Results Simulation = Results(mesh_sol, input_sol);
   //res.resize(mesh_sol.nElem);
   conservativeVars.resize(mesh_sol.nElem);
+  for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
+    for (int j = 0; j < 4; j++){
+      conservativeVars[iElem].push_back(0);
+    }
+  }
 
   // Identify what are the internal faces
   Solver::SortFaces();
 
   // Iteration process until convergence
   while (/*res[0] > input_sol.errMax &&*/ nb_it < 1000){
-    //std::cout << nb_it << '\n';
     // Reset the residuals for every element
     Solver::ResReset();
 
@@ -43,11 +47,6 @@ void Solver::ComputeSolver(){
       // Rearranging normal vector if necessary
       Solver::NormalVecIntern(currFace);
       Solver::CalcRes(currFace, Simulation);
-      /*std::vector<std::vector<double>> deltaW = EulerExplicit(mesh_sol, dt[iElem], res[iElem], metrics_sol.area[iElem]);
-      conservativeVars[0] += deltaW[0];
-      conservativeVars[1] += deltaW[1];
-      conservativeVars[2] += deltaW[2];
-      conservativeVars[3] += deltaW[3];*/
     }
 
     // Looping ovr the boundary faces
@@ -56,6 +55,23 @@ void Solver::ComputeSolver(){
 
       // Rearranging normal vector if necessary
       Solver::NormalVecBC(currFace);
+      Solver::CalcRes(currFace, Simulation);
+    }
+
+    // Looping over the elements to update deltaW
+    // Initialize the deltaW vector
+    deltaW.resize(mesh_sol.nElem);
+    for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
+      for (int j = 0; j < 4; j++){
+        deltaW[iElem].push_back(0);
+      }
+    }
+    for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
+      Solver::EulerExplicit(iElem);
+      conservativeVars[iElem][0] += deltaW[iElem][0];
+      conservativeVars[iElem][1] += deltaW[iElem][1];
+      conservativeVars[iElem][2] += deltaW[iElem][2];
+      conservativeVars[iElem][3] += deltaW[iElem][3];
     }
   }
 }
@@ -144,14 +160,12 @@ void Solver::UpdateBC(){
   }
 }
 
-std::vector<double> Solver::EulerExplicit(Mesh &mesh, double dt, std::vector<double> res, double area){
-  std::vector<double> _dWn;
-  _dWn.resize(4);
-  _dWn[0] = - dt/area*res[0];  // calcul de rho
-  _dWn[1] = - dt/area*res[1];  // rhoU
-  _dWn[2] = - dt/area*res[2];  // rhoV
-  _dWn[3] = - dt/area*res[3];  // rhoEiElem
-  return _dWn;
+void Solver::EulerExplicit(int iElem){
+  double area = metrics_sol.area[iElem];
+  deltaW[iElem][0] = - dt[iElem]/area*res[iElem][0];  // calcul de rho
+  deltaW[iElem][1] = - dt[iElem]/area*res[iElem][1];  // rhoU
+  deltaW[iElem][2] = - dt[iElem]/area*res[iElem][2];  // rhoV
+  deltaW[iElem][3] = - dt[iElem]/area*res[iElem][3];  // rhoEiElem
 }
 
 void Solver::ResReset(){

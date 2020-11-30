@@ -21,6 +21,7 @@ Writer::Writer(string &path, Mesh *meshdata, Results *solution)
 	m_outputSol = NULL;
 };
 
+Writer::~Writer(){}
 ////////////
 // File Reading Verication (OPTIONAL)
 //////////
@@ -69,15 +70,16 @@ void Writer::writeCoord(ofstream &filestream)
 {
 
 	uint32_t returnline = 0;
+	std::cout << "4.1" << '\n';
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
 	{
 	  filestream << m_meshdata-> nNode  .at(2 * returnline) << "\n";
 	}
-	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
-
-
-    	filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
-    } 
+	std::cout << "4.2" << '\n';
+	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1){
+			filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
+	}
+}
 
 
 
@@ -120,6 +122,3 @@ void Writer::writeElementConnectivity(ofstream &filestream)
 	}
 
 }
-
-
-
