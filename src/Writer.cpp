@@ -37,9 +37,9 @@ void Writer::writeSol()
     ofstream filestream(_path);
     writeHeader(filestream); // Writing header
 	writeNewZone(filestream);
-	writeCoord(filestream);
+	//writeCoord(filestream);
 	writeVar(filestream);
-	///FaceConnectivity(filestream)
+	//FaceConnectivity(filestream)
 	writeElementConnectivity(filestream);
 
   filestream.close(); // Close file
@@ -70,12 +70,10 @@ void Writer::writeCoord(ofstream &filestream)
 {
 
 	uint32_t returnline = 0;
-	std::cout << "4.1" << '\n';
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
 	{
 	  filestream << m_meshdata-> nNode  .at(2 * returnline) << "\n";
 	}
-	std::cout << "4.2" << '\n';
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1){
 			filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
 	}

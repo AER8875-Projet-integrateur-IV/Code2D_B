@@ -68,10 +68,15 @@ void Solver::ComputeSolver(){
     }
     for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
       Solver::EulerExplicit(iElem);
-      conservativeVars[iElem][0] += deltaW[iElem][0];
+      /*conservativeVars[iElem][0] += deltaW[iElem][0];
       conservativeVars[iElem][1] += deltaW[iElem][1];
       conservativeVars[iElem][2] += deltaW[iElem][2];
-      conservativeVars[iElem][3] += deltaW[iElem][3];
+      conservativeVars[iElem][3] += deltaW[iElem][3];*/
+
+      Simulation.rho[iElem] += deltaW[iElem][0];
+      Simulation.u[iElem] += deltaW[iElem][1]/deltaW[iElem][0];
+      Simulation.v[iElem] += deltaW[iElem][2]/deltaW[iElem][0];
+      Simulation.H[iElem] += deltaW[iElem][3]/deltaW[iElem][0];
     }
   }
 }
@@ -236,6 +241,17 @@ void Solver::SortFaces(){
     }
   }
 }
+
+/*void Solver::RMS(){
+  double r1 = 0;
+  double r2 = 0;
+  double r3 = 0;
+  double r4 = 0;
+
+  for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
+    r1 += pow(Simulation.rho,2)
+  }
+}*/
 
 /*std::std::vector<double> Solver::RoeScheme(){
 
