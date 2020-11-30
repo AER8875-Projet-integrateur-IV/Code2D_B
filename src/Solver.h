@@ -13,6 +13,7 @@
 #include "RoeScheme.h"
 //#include "EulerExplicit.h"
 #include <iostream>
+#include <cmath>
 
 class Solver{
 public:
@@ -27,6 +28,7 @@ public:
     void NormalVecIntern(int &); // Flip internal normal vector if necessary
     void NormalVecBC(int &);  // Flip boundary normal vector if necessary
     void SortFaces(); // Sort the faces to see if they are on the boundary or not
+    void RMS(Results &);
 
     std::vector<double> dt;
     std::vector<std::vector<double>> res;
@@ -34,6 +36,10 @@ public:
     std::vector<int> internFace;
     std::vector<int> boundFace;
     std::vector<std::vector<double>> deltaW;
+    std::vector<double> rmsRho;
+    std::vector<double> rmsU;
+    std::vector<double> rmsV;
+    std::vector<double> rmsH;
 
     Mesh &mesh_sol;
     Input &input_sol;

@@ -77,6 +77,25 @@ void Solver::ComputeSolver(){
       Simulation.u[iElem] += deltaW[iElem][1]/deltaW[iElem][0];
       Simulation.v[iElem] += deltaW[iElem][2]/deltaW[iElem][0];
       Simulation.H[iElem] += deltaW[iElem][3]/deltaW[iElem][0];
+
+      //std::cout << Simulation.rho[iElem] << '\n';
+
+      // Update residuals
+      double r1 = 0;
+      double r2 = 0;
+      double r3 = 0;
+      double r4 = 0;
+      /*for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
+        r1 += std::pow(Simulation.rho[iElem],2);
+        r2 += std::pow(Simulation.u[iElem],2);
+        r3 += std::pow(Simulation.v[iElem],2);
+        r4 += std::pow(Simulation.H[iElem],2);
+      }
+      rmsRho.push_back(std::pow(r1/mesh_sol.nElem,0.5));
+      rmsU.push_back(std::pow(r2/mesh_sol.nElem,0.5));
+      rmsV.push_back(std::pow(r3/mesh_sol.nElem,0.5));
+      rmsH.push_back(std::pow(r4/mesh_sol.nElem,0.5));
+      std::cout << r1 << '\n';*/
     }
   }
 }
@@ -242,15 +261,23 @@ void Solver::SortFaces(){
   }
 }
 
-/*void Solver::RMS(){
+// Calculate rms of conservative variables
+/*void Solver::RMS(Results &Simulation){
   double r1 = 0;
   double r2 = 0;
   double r3 = 0;
   double r4 = 0;
 
   for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
-    r1 += pow(Simulation.rho,2)
+    r1 += pow(Simulation.rho,2);
+    r2 += pow(Simulation.u,2);
+    r3 += pow(Simulation.v,2);
+    r4 += pow(Simulation.H,2);
   }
+  rmsRho.push_back(pow(r1/mesh_sol.nElem,0.5));
+  rmsU.push_back(pow(r2/mesh_sol.nElem,0.5));
+  rmsV.push_back(pow(r3/mesh_sol.nElem,0.5));
+  rmsH.push_back(pow(r4/mesh_sol.nElem,0.5));
 }*/
 
 /*std::std::vector<double> Solver::RoeScheme(){
