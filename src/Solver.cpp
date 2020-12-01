@@ -20,8 +20,9 @@ void Solver::ComputeSolver(){
     }
   }
   int nb_it = 0;
-
   Results Simulation = Results(mesh_sol, input_sol);
+
+  //std::cout << Simulation.rho[0] << '\n';
   //res.resize(mesh_sol.nElem);
   conservativeVars.resize(mesh_sol.nElem);
   for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
@@ -29,12 +30,18 @@ void Solver::ComputeSolver(){
       conservativeVars[iElem].push_back(0);
     }
   }
-
   // Identify what are the internal faces
   Solver::SortFaces();
 
+  deltaW.resize(mesh_sol.nElem);
+  for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
+    for (int j = 0; j < 4; j++){
+      deltaW[iElem].push_back(0);
+    }
+  }
+
   // Iteration process until convergence
-  while (/*res[0] > input_sol.errMax &&*/ nb_it < 1000){
+  while (/*res[0] > input_sol.errMax &&*/ nb_it < 100){
     // Reset the residuals for every element
     Solver::ResReset();
 
@@ -60,25 +67,27 @@ void Solver::ComputeSolver(){
 
     // Looping over the elements to update deltaW
     // Initialize the deltaW vector
-    deltaW.resize(mesh_sol.nElem);
-    for (int iElem = 0; iElem < mesh_sol.nElem; iElem++){
-      for (int j = 0; j < 4; j++){
-        deltaW[iElem].push_back(0);
-      }
-    }
+    int j = 0;
     for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
+      deltaW[iElem][0] = 0;
+      deltaW[iElem][1] = 0;
+      deltaW[iElem][2] = 0;
+      deltaW[iElem][3] = 0;
       Solver::EulerExplicit(iElem);
       /*conservativeVars[iElem][0] += deltaW[iElem][0];
       conservativeVars[iElem][1] += deltaW[iElem][1];
       conservativeVars[iElem][2] += deltaW[iElem][2];
       conservativeVars[iElem][3] += deltaW[iElem][3];*/
+      //std::cout << deltaW[iElem][0] << '\n';
+      j+=1;
+      //std::cout << j << '\n';
 
       Simulation.rho[iElem] += deltaW[iElem][0];
       Simulation.u[iElem] += deltaW[iElem][1]/deltaW[iElem][0];
       Simulation.v[iElem] += deltaW[iElem][2]/deltaW[iElem][0];
       Simulation.H[iElem] += deltaW[iElem][3]/deltaW[iElem][0];
 
-      //std::cout << Simulation.rho[iElem] << '\n';
+      std::cout << Simulation.rho[iElem] << '\n';
 
       // Update residuals
       double r1 = 0;
@@ -104,7 +113,7 @@ void Solver::ComputeSolver(){
 std::vector<double> Solver::ComputeDeltaT(std::vector<double> u, std::vector<double> v){
   for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
     CalcRadii(iElem, u, v);
-    dt[iElem] = input_sol.cfl*metrics_sol.area[iElem]/1;
+    dt[iElem] = input_sol.cfl*metrics_sol.area[iElem]/convecRadiiTotal;
     // Missing spectral radii
   }
   return dt;
@@ -175,12 +184,8 @@ void Solver::CalcRadii(int elem1, std::vector<double> u, std::vector<double> v){
 // Update boundary condition
 void Solver::UpdateBC(){
   std::cout << "Boundary conditions update not done" << '\n';
-  for (int iElem = 0; iElem<mesh_sol.nElem; iElem++){
-    for (int iNfael = 0; iNfael<mesh_sol.nFael[iElem]; iNfael++){
-      if (mesh_sol.eSuel[iElem][iNfael] > mesh_sol.nElem){
+  for (int iFace = 0; iFace < boundFace.size(); iFace++){
 
-      }
-    }
   }
 }
 
@@ -252,7 +257,8 @@ void Solver::SortFaces(){
   internFace = {};
   boundFace = {};
   for(int iFace = 0; iFace < mesh_sol.nbFace; iFace++){
-    if(mesh_sol.eSufa[iFace].size() == 2){
+    if((mesh_sol.eSufa[iFace][0]<mesh_sol.nElem) && (mesh_sol.eSufa[iFace][1]<mesh_sol.nElem)){
+
       internFace.push_back(iFace);
     }
     else{

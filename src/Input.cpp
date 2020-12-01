@@ -32,4 +32,5 @@ void Input::HardCoded(){
   v = mach*sqrt(gammaGas*gasConstant*temp)*std::sin(3.14159265358979/180*aoa);
   E = p/((gammaGas-1)*rho)+(u*u+v*v)/2;
   H = E+p/rho;
+  c = sqrt(gammaGas*p/rho);
 }*/

@@ -876,8 +876,21 @@ void Mesh::ElemSurrFace(){
     eSufa.push_back(temp);
   }
 
+  // Relooping to add the ghost cells
+  for (int iFace = 0; iFace < nbFace; iFace++){
+    if (eSufa[iFace].size() == 1){
+      int tempElem = eSufa[iFace][0];
+      for (int iElem = 0; iElem < nFael[iElem]; iElem++){
+        if (eSuel[tempElem][iElem]>=nElem){
+          eSufa[iFace].push_back(eSuel[tempElem][iElem]);
+          break;
+        }
+      }
+    }
+  }
+
   // Function verification
-  /*for (int i = 0; i < nbFace; i++){
+  /*for (int i = 0; i < eSufa.size(); i++){
     for (int j = 0; j < eSufa[i].size(); j++){
       std::cout << eSufa[i][j] << '\n';
     }

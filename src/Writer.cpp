@@ -37,10 +37,13 @@ void Writer::writeSol()
     ofstream filestream(_path);
     writeHeader(filestream); // Writing header
 	writeNewZone(filestream);
-	//writeCoord(filestream);
+	writeCoord(filestream);
+	std::cout << "1" << '\n';
 	writeVar(filestream);
+	std::cout << "2" << '\n';
 	//FaceConnectivity(filestream)
-	writeElementConnectivity(filestream);
+	//writeElementConnectivity(filestream);
+	std::cout << "3" << '\n';
 
   filestream.close(); // Close file
 }
@@ -68,15 +71,20 @@ void Writer::writeNewZone(std::ofstream &filestream)
 ///POINTS COORDINATES
 void Writer::writeCoord(ofstream &filestream)
 {
+	for (int iDim = 0; iDim < m_meshdata-> nDimn; iDim++){
+		for (int iPoin = 0; iPoin < m_meshdata-> nPoin; iPoin++){
+			filestream << m_meshdata-> coord[iPoin][iDim] << "\n";
+		}
+	}
 
-	uint32_t returnline = 0;
+	/*uint32_t returnline = 0;
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1)
 	{
-	  filestream << m_meshdata-> nNode  .at(2 * returnline) << "\n";
+	  filestream << m_meshdata-> coord  .at(2 * returnline) << "\n";
 	}
 	for (returnline = 0; returnline < unsigned(m_meshdata-> nPoin); returnline = returnline + 1){
-			filestream << m_meshdata-> nNode .at(2 * returnline + 1) << "\n";
-	}
+			filestream << m_meshdata-> coord .at(2 * returnline + 1) << "\n";
+	}*/
 }
 
 
